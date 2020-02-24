@@ -13,7 +13,7 @@ iocage exec organizr sed -i '' -e 's?;cgi.fix_pathinfo=1?cgi.fix_pathinfo=0?g' /
 mv /mnt/tank/iocage/jails/organizr/root/usr/local/etc/nginx/nginx.conf /mnt/tank/iocage/jails/organizr/root/usr/local/etc/nginx/nginx.conf.bak
 cp ./organizr-conf/inginx.conf /mnt/tank/iocage/jails/organizr/root/usr/local/etc/nginx/nginx.conf
 iocage exec organizr git clone https://github.com/causefx/Organizr.git /usr/local/www/Organizr
-iocage exec organizr chown -R www:www /usr/local/www /config
+iocage exec organizr chown -R www:www /usr/local/www /config /usr/local/etc/nginx/nginx.conf
 iocage exec organizr ln -s /config/config.php /usr/local/www/Organizr/api/config/config.php
 iocage exec organizr sysrc nginx_enable=YES
 iocage exec organizr sysrc php_fpm_enable=YES
