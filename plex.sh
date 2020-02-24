@@ -16,3 +16,7 @@ iocage exec plex pkg update -y
 iocage exec plex pkg upgrade -y
 iocage exec plex chown -R plex:plex /usr/local/share/plexmediaserver-plexpass/
 iocage exec plex service plexmediaserver_plexpass start
+sleep 20s
+echo "Waiting 20s to start"
+iocage exec plex service plexmediaserver_plexpass start
+iocage exec plex service plexmediaserver_plexpass status
