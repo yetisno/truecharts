@@ -14,4 +14,5 @@ iocage exec plex sysrc "plexmediaserver_plexpass_enable=YES"
 iocage exec plex sysrc plexmediaserver_plexpass_support_path="/config"
 iocage exec plex pkg update
 iocage exec plex pkg upgrade
+iocage exec plex chown -R plex:plex /usr/local/share/plexmediaserver-plexpass/
 iocage exec plex service plexmediaserver_plexpass start
