@@ -22,4 +22,5 @@ iocage stop plex
 sleep 10s
 echo "Waiting 20s to start plex"
 iocage start plex
+iocage exec plex service plexmediaserver_plexpass start
 echo "Finished installing plex"
