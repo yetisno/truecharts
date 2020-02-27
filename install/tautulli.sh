@@ -1,5 +1,5 @@
 echo '{"pkgs":["python2","py27-sqlite3","py27-openssl","ca_root_nss","git","nano"]}' > /tmp/pkg.json
-iocage create -n "tautulli" -p /tmp/pkg.json -r 11.3-RELEASE interfaces="vnet0:bridge30" ip4_addr="vnet0|192.168.30.27/24" defaultrouter="192.168.30.1" vnet="on" allow_raw_sockets="1" boot="on"
+iocage create -n "tautulli" -p /tmp/pkg.json -r 11.3-RELEASE interfaces="vnet0:bridge31" ip4_addr="vnet0|192.168.31.26/24" defaultrouter="192.168.31.1" vnet="on" allow_raw_sockets="1" boot="on"
 rm /tmp/pkg.json
 iocage exec tautulli mkdir -p /config
 iocage fstab -a tautulli /mnt/tank/apps/tautulli /config nullfs rw 0 0

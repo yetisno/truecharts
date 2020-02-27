@@ -1,5 +1,5 @@
 echo '{"pkgs":["mono","mediainfo","sqlite3","ca_root_nss","curl","chromaprint","nano"]}' > /tmp/pkg.json
-iocage create -n "lidarr" -p /tmp/pkg.json -r 11.3-RELEASE interfaces="vnet0:bridge30" ip4_addr="vnet0|192.168.30.32/24" defaultrouter="192.168.30.1" vnet="on" allow_raw_sockets="1" boot="on"
+iocage create -n "lidarr" -p /tmp/pkg.json -r 11.3-RELEASE interfaces="vnet0:bridge31" ip4_addr="vnet0|192.168.31.25/24" defaultrouter="192.168.31.1" vnet="on" allow_raw_sockets="1" boot="on"
 rm /tmp/pkg.json
 iocage exec lidarr mkdir -p /config
 iocage exec lidarr mkdir -p /mnt/music

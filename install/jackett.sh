@@ -1,5 +1,5 @@
 echo '{"pkgs":["mono","curl","ca_root_nss","nano"]}' > /tmp/pkg.json
-iocage create -n "jackett" -p /tmp/pkg.json -r 11.3-RELEASE interfaces="vnet0:bridge30" ip4_addr="vnet0|192.168.30.28/24" defaultrouter="192.168.30.1" vnet="on" allow_raw_sockets="1" boot="on"
+iocage create -n "jackett" -p /tmp/pkg.json -r 11.3-RELEASE interfaces="vnet0:bridge31" ip4_addr="vnet0|192.168.31.30/24" defaultrouter="192.168.21.1" vnet="on" allow_raw_sockets="1" boot="on"
 rm /tmp/pkg.json
 iocage exec jackett mkdir -p /config
 iocage fstab -a jackett /mnt/tank/apps/jackett /config nullfs rw 0 0
