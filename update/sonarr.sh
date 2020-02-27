@@ -1,5 +1,6 @@
 iocage exec sonarr service sonarr stop
 iocage update sonarr
+iocage exec sonarr "pkg update && pkg upgrade -y"
 iocage exec sonarr "fetch http://download.sonarr.tv/v2/master/mono/NzbDrone.master.tar.gz -o /usr/local/share"
 iocage exec sonarr "tar -xzvf /usr/local/share/NzbDrone.master.tar.gz -C /usr/local/share"
 iocage exec sonarr rm /usr/local/share/NzbDrone.master.tar.gz

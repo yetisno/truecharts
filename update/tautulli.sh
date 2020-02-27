@@ -1,5 +1,6 @@
 iocage exec tautulli service tautulli stop
 iocage update tautulli
+iocage exec tautulli "pkg update && pkg upgrade -y"
 iocage exec tautulli cd /usr/local/share/Tautulli
 iocage exec tautulli git pull
 iocage exec tautulli chown -R tautulli:tautulli /usr/local/share/Tautulli /config
