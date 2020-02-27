@@ -2,7 +2,7 @@ echo '{"pkgs":["mono","mediainfo","sqlite3","ca_root_nss","curl","nano"]}' > /tm
 iocage create -n "radarr" -p /tmp/pkg.json -r 11.3-RELEASE interfaces="vnet0:bridge30" ip4_addr="vnet0|192.168.30.31/24" defaultrouter="192.168.30.1" vnet="on" allow_raw_sockets="1" boot="on"
 rm /tmp/pkg.json
 iocage exec radarr mkdir -p /config
-iocage exec radarr mkdir -p /mnt/music
+iocage exec radarr mkdir -p /mnt/movies
 iocage exec radarr mkdir -p /mnt/fetched
 iocage fstab -a radarr /mnt/tank/apps/radarr /config nullfs rw 0 0
 iocage fstab -a radarr /mnt/tank/downloads/complete /mnt/fetched nullfs rw 0 0

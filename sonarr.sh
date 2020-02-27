@@ -2,7 +2,7 @@ echo '{"pkgs":["mono","mediainfo","sqlite3","ca_root_nss","curl","nano"]}' > /tm
 iocage create -n "sonarr" -p /tmp/pkg.json -r 11.3-RELEASE interfaces="vnet0:bridge30" ip4_addr="vnet0|192.168.30.30/24" defaultrouter="192.168.30.1" vnet="on" allow_raw_sockets="1" boot="on"
 rm /tmp/pkg.json
 iocage exec sonarr mkdir -p /config
-iocage exec sonarr mkdir -p /mnt/music
+iocage exec sonarr mkdir -p /mnt/series
 iocage exec sonarr mkdir -p /mnt/fetched
 iocage fstab -a sonarr /mnt/tank/apps/sonarr /config nullfs rw 0 0
 iocage fstab -a sonarr /mnt/tank/downloads/complete /mnt/fetched nullfs rw 0 0
