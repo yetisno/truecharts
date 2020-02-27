@@ -1,5 +1,5 @@
 echo '{"pkgs":["nginx","php72","php72-filter","php72-curl","php72-hash","php72-json","php72-openssl","php72-pdo","php72-pdo_sqlite","php72-session","php72-simplexml","php72-sqlite3","php72-zip","git","ca_root_nss"]}' > /tmp/pkg.json
-iocage create -n "organizr" -p /tmp/pkg.json -r 11.3-RELEASE ip4_addr="vnet0|192.168.10.21/24" defaultrouter="192.168.10.1" vnet="on" allow_raw_sockets="1" boot="on"
+iocage create -n "organizr" -p /tmp/pkg.json -r 11.3-RELEASE interfaces="vnet0:bridge30" ip4_addr="vnet0|192.168.30.25/24" defaultrouter="192.168.30.1" vnet="on" allow_raw_sockets="1" boot="on"
 rm /tmp/pkg.json
 iocage exec organizr mkdir -p /config
 iocage fstab -a organizr /mnt/tank/apps/organizr /config nullfs rw 0 0

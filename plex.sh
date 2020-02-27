@@ -1,7 +1,7 @@
 #!/bin/sh
 
 echo '{"pkgs":["plexmediaserver-plexpass","ca_root_nss","nano"]}' > /tmp/pkg.json
-iocage create -n "plex" -p /tmp/pkg.json -r 11.3-RELEASE ip4_addr="vnet0|192.168.10.23/24" defaultrouter="192.168.10.1" vnet="on" allow_raw_sockets="1" boot="on"
+iocage create -n "plex" -p /tmp/pkg.json -r 11.3-RELEASE interfaces="vnet0:bridge30" ip4_addr="vnet0|192.168.30.26/24" defaultrouter="192.168.30.1" vnet="on" allow_raw_sockets="1" boot="on"
 rm /tmp/pkg.json
 iocage exec plex "mkdir -p /usr/local/etc/pkg/repos"
 cp ./plex-conf/FreeBSD.conf /mnt/tank/iocage/jails/plex/root/usr/local/etc/pkg/repos/FreeBSD.conf
