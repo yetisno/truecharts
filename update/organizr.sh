@@ -1,6 +1,6 @@
 iocage exec organizr service nginx stop
 iocage exec organizr service php-fpm stop
-iocage exec organizr pkg update && pkg upgrade -y
+iocage update organizr
 mv /mnt/tank/iocage/jails/organizr/root/usr/local/etc/nginx/nginx.conf /mnt/tank/iocage/jails/organizr/root/usr/local/etc/nginx/nginx.conf.bak
 cp ../includes/organizr-conf/nginx.conf /mnt/tank/iocage/jails/organizr/root/usr/local/etc/nginx/nginx.conf
 cp ../includes/organizr-conf/custom /mnt/tank/iocage/jails/organizr/root/usr/local/etc/nginx/custom
