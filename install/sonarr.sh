@@ -14,7 +14,7 @@ iocage exec sonarr rm /usr/local/share/NzbDrone.master.tar.gz
 iocage exec sonarr "pw user add sonarr -c sonarr -u 351 -d /nonexistent -s /usr/bin/nologin"
 iocage exec sonarr chown -R sonarr:sonarr /usr/local/share/NzbDrone /config
 iocage exec sonarr mkdir /usr/local/etc/rc.d
-cp ./sonarr-conf/sonarr.rc /mnt/tank/iocage/jails/sonarr/root/usr/local/etc/rc.d/sonarr
+cp ../includes/sonarr-conf/sonarr.rc /mnt/tank/iocage/jails/sonarr/root/usr/local/etc/rc.d/sonarr
 iocage exec sonarr chmod u+x /usr/local/etc/rc.d/sonarr
 iocage exec sonarr sysrc "sonarr_enable=YES"
 iocage exec sonarr service sonarr start

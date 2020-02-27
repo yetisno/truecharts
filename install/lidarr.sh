@@ -14,7 +14,7 @@ iocage exec lidarr "rm /usr/local/share/v0.2.0.371/Lidarr.develop.0.2.0.371.linu
 iocage exec lidarr "pw user add lidarr -c lidarr -u 353 -d /nonexistent -s /usr/bin/nologin"
 iocage exec lidarr chown -R lidarr:lidarr /usr/local/share/Lidarr /config
 iocage exec lidarr mkdir /usr/local/etc/rc.d
-cp ./lidarr-conf/lidarr.rc /mnt/tank/iocage/jails/lidarr/root/usr/local/etc/rc.d/lidarr
+cp ../includes/lidarr-conf/lidarr.rc /mnt/tank/iocage/jails/lidarr/root/usr/local/etc/rc.d/lidarr
 iocage exec lidarr chmod u+x /usr/local/etc/rc.d/lidarr
 iocage exec lidarr sysrc "lidarr_enable=YES"
 iocage exec lidarr service lidarr start

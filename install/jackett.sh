@@ -10,7 +10,7 @@ iocage exec jackett rm /usr/local/share/Jackett.Binaries.Mono.tar.gz
 iocage exec jackett "pw user add jackett -c jackett -u 818 -d /nonexistent -s /usr/bin/nologin"
 iocage exec jackett chown -R jackett:jackett /usr/local/share/Jackett /config
 iocage exec jackett mkdir /usr/local/etc/rc.d
-cp ./jackett-conf/jackett.rc /mnt/tank/iocage/jails/jackett/root/usr/local/etc/rc.d/jackett
+cp ../includes/jackett-conf/jackett.rc /mnt/tank/iocage/jails/jackett/root/usr/local/etc/rc.d/jackett
 iocage exec jackett chmod u+x /usr/local/etc/rc.d/jackett
 iocage exec jackett sysrc "jackett_enable=YES"
 iocage exec jackett service jackett restart

@@ -14,7 +14,7 @@ iocage exec radarr rm /usr/local/share/Radarr.develop.0.2.0.1480.linux.tar.gz
 iocage exec radarr "pw user add radarr -c radarr -u 352 -d /nonexistent -s /usr/bin/nologin"
 iocage exec radarr chown -R radarr:radarr /usr/local/share/Radarr /config
 iocage exec radarr mkdir /usr/local/etc/rc.d
-cp ./radarr-conf/radarr.rc /mnt/tank/iocage/jails/radarr/root/usr/local/etc/rc.d/radarr
+cp ../includes/radarr-conf/radarr.rc /mnt/tank/iocage/jails/radarr/root/usr/local/etc/rc.d/radarr
 iocage exec radarr chmod u+x /usr/local/etc/rc.d/radarr
 iocage exec radarr sysrc "radarr_enable=YES"
 iocage exec radarr service radarr start
