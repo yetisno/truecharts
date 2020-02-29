@@ -33,6 +33,6 @@ load_rc_config $name
 : ${py_kms_data_dir:="/config"}
 
 command="/usr/local/bin/python3.7"
-command_args="/usr/local/share/py-kms/pykms_Server.py 0.0.0.0 1688 -F ${py_kms_data_dir}/py-kms.log etrigan start --etrigan-pid/etrigan.pid"
+command_args="/usr/local/share/py-kms/pykms_Server.py 0.0.0.0 1688 -F ${py_kms_data_dir}/py-kms.log etrigan start --etrigan-pid ${py_kms_data_dir}/etrigan.pid"
 
 run_rc_command "$1"
