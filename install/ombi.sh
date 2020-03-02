@@ -1,6 +1,7 @@
 echo '{"pkgs":["mono","ca_root_nss","unzip","sqlite3","nano"]}' > /tmp/pkg.json
 iocage create -n "ombi" -p /tmp/pkg.json -r 11.3-RELEASE interfaces="vnet0:bridge31" ip4_addr="vnet0|192.168.31.27/24" defaultrouter="192.168.31.1" vnet="on" allow_raw_sockets="1" boot="on"
 rm /tmp/pkg.json
+iocage exec ombi mkdir -p /config
 iocage fstab -a ombi /mnt/tank/apps/ombi /config nullfs rw 0 0
 iocage exec ombi ln -s /usr/local/bin/mono /usr/bin/mono
 iocage exec ombi "fetch https://github.com/tidusjar/Ombi/releases/download/v2.2.1/Ombi.zip -o /usr/local/share"
