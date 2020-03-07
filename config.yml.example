@@ -1,8 +1,15 @@
 global:
   # Relevant dataset paths, please use the ZFS dataset syntax such as: tank/apps
   dataset:
+   # dataset for internal jail config files
    config: tank/apps
+   # Iocage root dataset
    iocage: tank/iocage
+   # Media library dataset
+   media: tank/media
+   # Parent downloads dataset 
+   # (is going to contain: Complete and Incomplete datasets for downloads)
+   downloads: tank/downloads
   jails:
    # jail version to install
    version: 11.3-RELEASE
