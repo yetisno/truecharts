@@ -13,9 +13,13 @@ If something goes wrong with Jackett, you just use:
 
 
 ## Install
+- Get into FreeNAS using the in-gui console or SSH.
+Run the following commands to install jailman:
 - `git clone https://github.com/Ornias1993/jailman.git`
-- `cp config.yml.ex. config.yml`
-- edit config.yml to reflect your personal settings
+- `cd jailman`
+- `cp config.yml.example config.yml`
+- edit config.yml to reflect your personal settings (optional, see "use")
+- Run one of the commands under "use"
 
 Thats all.
 
@@ -29,12 +33,22 @@ For supported jails, please see this readme or config.yml.example
 
 - Install:
 `jailman.sh -i $jailname`
+Example:
+`jailman.sh -i sonarr`
 
 - ReInstall:
 `jailman.sh -r $jailname`
+Example:
+`jailman.sh -r sonarr`
 
 - Destroy
 `jailman.sh -d $jailname`
+Example:
+`jailman.sh -d sonarr`
+
+You can also do multiple jails in one pass:
+Example:
+`jailman.sh -i sonarr radarr lidarr`
 
 This installs the jail, creates the config dataset if needed, installs all packages and sets them up for you.
 Only thing you need to do is do the setup of the packages in their respective GUI.
