@@ -31,20 +31,24 @@ This script includes an autoupdate feature which checks if changes to the script
 Replace $jailname with the name of the jail you want to install.
 For supported jails, please see this readme or config.yml.example
 
+- First: CD into the directory you downloaded jailman into (see above)
+example:
+`cd /root/jailman`
+
 - Install:
-`jailman.sh -i $jailname`
+`./jailman.sh -i $jailname`
 Example:
-`jailman.sh -i sonarr`
+`./jailman.sh -i sonarr`
 
 - ReInstall:
-`jailman.sh -r $jailname`
+`./jailman.sh -r $jailname`
 Example:
-`jailman.sh -r sonarr`
+`./jailman.sh -r sonarr`
 
 - Destroy
-`jailman.sh -d $jailname`
+`./jailman.sh -d $jailname`
 Example:
-`jailman.sh -d sonarr`
+`./jailman.sh -d sonarr`
 
 You can also do multiple jails in one pass:
 Example:
