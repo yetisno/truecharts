@@ -1,3 +1,3 @@
+Welcome to the jailman wiki!
 
-Welcome to the Jailman Wiki.
-This wiki is automatically generated from the *.md files located in either the /wiki or the /jails/*/ directories.
+This wiki is automatically generated from the .md files located in either the /wiki or the /jails// directories.
