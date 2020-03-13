@@ -15,10 +15,10 @@ global:
    version: 11.3-RELEASE
    # Global pkgs to install in all jails.
    # Please use standard space delimited pkg install syntax.
-   pkgs: curl ca_root_nss
+   pkgs: curl ca_root_nss bash
 
 
-# Example configuration, showing how to customise network config.
+# Example configuration, showing how to customise network config. 
 # Ese the same jailname on both sides of this variable example: example
 example: example
   #interfaces is optional and will be autmatically replace with vnet0:bridge0 if not present
@@ -56,3 +56,39 @@ organizr: organizr
   
 kms: kms
   pkgs: bash py37-tkinter py37-pip py37-sqlite3 git
+
+
+nextcloud: nextcloud
+  ip4_addr: 192.168.1.99/24
+  gateway: 192.168.1.1
+  time_zone: Europe/Amsterdam
+  host_name: cloud.example.com
+  pkgs:   nano sudo redis php73-ctype gnupg php73-dom php73-gd php73-iconv php73-json php73-mbstring php73-posix php73-simplexml php73-xmlreader php73-xmlwriter php73-zip php73-zlib php73-hash php73-xml php73 php73-pecl-redis php73-session php73-wddx php73-xsl php73-filter php73-pecl-APCu php73-curl php73-fileinfo php73-bz2 php73-intl php73-openssl php73-ldap php73-ftp php73-imap php73-exif php73-gmp php73-pecl-memcache php73-pecl-imagick perl5 p5-Locale-gettext help2man texinfo m4 autoconf
+  database: mariadb
+  standalone_cert: 0
+  selfsigned_cert: 0
+  dns_cert: 0
+  no_cert: 1
+  dl_flags: ""
+  dns_settings: ""
+  cert_email: "placeholder@holdplace.org"
+  database: mariadb
+#  db_database:
+#  db_user:
+#  db_password
+#  db_host
+  
+mariadb: mariadb
+  ip4_addr: 192.168.1.98/24
+  gateway: 192.168.1.1
+  pkgs: mariadb104-server git  php74-session php74-xml php74-ctype php74-openssl php74-filter php74-gd php74-json php74-mysqli php74-mbstring php74-zlib php74-zip php74-bz2 phpMyAdmin5-php74 php74-pdo_mysql php74-mysqli phpMyAdmin5-php74-5.0.1
+  db_root_password: ReplaceThisWithYourOwnRootPAssword
+  host_name: mariadb.local.example
+
+bitwarden: bitwarden
+  ip4_addr: 192.168.1.97/24
+  gateway: 192.168.1.1
+  pkgs: sqlite3 nginx git sudo vim-tiny bash node npm python27-2.7.17_1 mariadb104-client
+  db_password: "YourDBPasswordHerePLEASE"
+  type: mariadb
+  admin_token: "PUTYOURADMINTOKENHEREANDREMOVETHIS"

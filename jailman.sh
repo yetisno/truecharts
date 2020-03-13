@@ -15,7 +15,7 @@ if ! [ $(id -u) = 0 ]; then
 fi
 
 # Auto Update
-BRANCH="master"
+BRANCH="dev"
 gitupdate ${BRANCH}
 
 # If no option is given, point to the help menu
@@ -110,7 +110,7 @@ else
 		if [ -f "${SCRIPT_DIR}/jails/$jail/install.sh" ]
 		then
 			echo "Installing $jail"
-			${SCRIPT_DIR}/jailcreate.sh $jail && ${SCRIPT_DIR}/jails/$jail/install.sh
+			jailcreate $jail && ${SCRIPT_DIR}/jails/$jail/install.sh
 		else
 			echo "Missing install script for $jail in ${SCRIPT_DIR}/jails/$jail/install.sh"
 		fi
@@ -127,7 +127,7 @@ else
 		if [ -f "${SCRIPT_DIR}/jails/$jail/install.sh" ]
 		then
 			echo "Reinstalling $jail"
-			iocage destroy -f $jail && ${SCRIPT_DIR}/jailcreate.sh $jail && ${SCRIPT_DIR}/jails/$jail/install.sh
+			iocage destroy -f $jail && jailcreate $jail && ${SCRIPT_DIR}/jails/$jail/install.sh
 		else
 			echo "Missing install script for $jail in ${SCRIPT_DIR}/jails/$jail/update.sh"
 		fi
@@ -145,8 +145,10 @@ else
 		if [ -f "${SCRIPT_DIR}/jails/$jail/update.sh" ]
 		then
 			echo "Updating $jail"
-			iocage update $jail && iocage exec $jail "pkg update && pkg upgrade -y" && ${SCRIPT_DIR}/jails/$jail/update.sh
+			iocage update $jail
+			iocage exec $jail "pkg update && pkg upgrade -y" && ${SCRIPT_DIR}/jails/$jail/update.sh
 			iocage restart $jail
+			iocage start $jail
 		else
 			echo "Missing update script for $jail in ${SCRIPT_DIR}/jails/$jail/update.sh"
 		fi
