@@ -5,20 +5,23 @@ iocage exec plex mkdir -p /usr/local/etc/pkg/repos
 
 
 # Change to to more frequent FreeBSD repo to stay up-to-date with plex more.
-cp ${SCRIPT_DIR}/jails/plex/includes/FreeBSD.conf /mnt/${global_dataset_iocage}/jails/plex/root/usr/local/etc/pkg/repos/FreeBSD.conf
+# shellcheck disable=SC2154
+cp "${SCRIPT_DIR}"/jails/plex/includes/FreeBSD.conf /mnt/"${global_dataset_iocage}"/jails/plex/root/usr/local/etc/pkg/repos/FreeBSD.conf
 
 
 # Check if datasets for media librarys exist, create them if they do not.
-createmount plex ${global_dataset_media} /mnt/media
-createmount plex ${global_dataset_media}/movies /mnt/media/movies
-createmount plex ${global_dataset_media}/music /mnt/media/music
-createmount plex ${global_dataset_media}/shows /mnt/media/shows
+# shellcheck disable=SC2154
+createmount plex "${global_dataset_media}" /mnt/media
+createmount plex "${global_dataset_media}"/movies /mnt/media/movies
+createmount plex "${global_dataset_media}"/music /mnt/media/music
+createmount plex "${global_dataset_media}"/shows /mnt/media/shows
 
 # Create plex ramdisk if specified
+# shellcheck disable=SC2154
 if [ -z "${plex_ramdisk}" ]; then
 	echo "no ramdisk specified for plex, continuing without randisk"
 else
-	iocage fstab -a plex tmpfs /tmp_transcode tmpfs rw,size=${plex_ramdisk},mode=1777 0 0
+	iocage fstab -a plex tmpfs /tmp_transcode tmpfs rw,size="${plex_ramdisk}",mode=1777 0 0
 fi
 
 iocage exec plex chown -R plex:plex /config
@@ -31,6 +34,7 @@ iocage exec plex pkg upgrade -y
 iocage exec plex pw groupmod -n video -m plex
 
 # Run different install procedures depending on Plex vs Plex Beta
+# shellcheck disable=SC2154
 if [ "$plex_beta" == "true" ]; then
 	echo "beta enabled in config.yml... using plex beta for install"
 	iocage exec plex sysrc "plexmediaserver_plexpass_enable=YES"
