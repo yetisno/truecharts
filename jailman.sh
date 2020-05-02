@@ -20,7 +20,7 @@ if ! [ "$(id -u)" = 0 ]; then
 fi
 
 # Auto Update
-BRANCH="dev"
+BRANCH="multi_install"
 gitupdate ${BRANCH}
 
 # If no option is given, point to the help menu
@@ -107,8 +107,15 @@ export global_dataset_iocage
 
 # Parse the Config YAML
 # shellcheck disable=SC2046
-for configpath in "${SCRIPT_DIR}"/jails/*/config.yml; do ! eval $(parse_yaml "${configpath}"); done
+for configpath in "${SCRIPT_DIR}"/blueprints/*/config.yml; do ! eval $(parse_yaml "${configpath}"); done
 eval "$(parse_yaml config.yml)"
+
+# shellcheck disable=SC2154
+if [ "${global_version}" != "1.2" ]; then
+	echo "You are using old config.yml synatx."
+	echo "Please check the wiki for required changes"
+	exit 1
+fi
 
 # Check and Execute requested jail destructions
 if [ ${#destroyjails[@]} -eq 0 ]; then 
@@ -132,12 +139,18 @@ else
 	echo "jails to install ${installjails[@]}"
 	for jail in "${installjails[@]}"
 	do
-		if [ -f "${SCRIPT_DIR}/jails/$jail/install.sh" ]
+		blueprint=jail_${jail}_blueprint
+		if [ -z "${!blueprint}" ]
+		then
+			echo "Config for ${jail} in config.yml incorrect. Please check your config."
+			exit 1
+		elif [ -f "${SCRIPT_DIR}/blueprints/${!blueprint}/install.sh" ]
 		then
 			echo "Installing $jail"
-			jailcreate "${jail}" && "${SCRIPT_DIR}"/jails/"${jail}"/install.sh
+			jailcreate "${jail}" "${!blueprint}" && "${SCRIPT_DIR}"/blueprints/"${!blueprint}"/install.sh "${jail}"
 		else
-			echo "Missing install script for $jail in ${SCRIPT_DIR}/jails/$jail/install.sh"
+			echo "Missing blueprint ${!blueprint} for $jail in ${SCRIPT_DIR}/blueprints/${!blueprint}/install.sh"
+			exit 1
 		fi
 	done
 fi
@@ -150,12 +163,18 @@ else
 	echo "jails to reinstall ${redojails[@]}"
 	for jail in "${redojails[@]}"
 	do
-		if [ -f "${SCRIPT_DIR}/jails/$jail/install.sh" ]
+		blueprint=jail_${jail}_blueprint
+		if [ -z "${!blueprint}" ]
+		then
+			echo "Config for ${jail} in config.yml incorrect. Please check your config."
+			exit 1
+		elif [ -f "${SCRIPT_DIR}/blueprints/${!blueprint}/install.sh" ]
 		then
 			echo "Reinstalling $jail"
-			iocage destroy -f "${jail}" && jailcreate "${jail}" && "${SCRIPT_DIR}"/jails/"${jail}"/install.sh
+			iocage destroy -f "${jail}" && jailcreate "${jail}" "${!blueprint}" && "${SCRIPT_DIR}"/blueprints/"${!blueprint}"/install.sh "${jail}"
 		else
-			echo "Missing install script for $jail in ${SCRIPT_DIR}/jails/$jail/update.sh"
+			echo "Missing blueprint ${!blueprint} for $jail in ${SCRIPT_DIR}/blueprints/${!blueprint}/install.sh"
+			exit 1
 		fi
 	done
 fi
@@ -169,15 +188,21 @@ else
 	echo "jails to update ${updatejails[@]}"
 	for jail in "${updatejails[@]}"
 	do
-		if [ -f "${SCRIPT_DIR}/jails/$jail/update.sh" ]
+		blueprint=jail_${jail}_blueprint
+		if [ -z "${!blueprint}" ]
+		then
+			echo "Config for ${jail} in config.yml incorrect. Please check your config."
+			exit 1
+		elif [ -f "${SCRIPT_DIR}/blueprints/${!blueprint}/update.sh" ]
 		then
 			echo "Updating $jail"
 			iocage update "${jail}"
-			iocage exec "${jail}" "pkg update && pkg upgrade -y" && "${SCRIPT_DIR}"/jails/"${jail}"/update.sh
+			iocage exec "${jail}" "pkg update && pkg upgrade -y" && "${SCRIPT_DIR}"/jails/"${!blueprint}"/update.sh
 			iocage restart "${jail}"
 			iocage start "${jail}"
 		else
-			echo "Missing update script for $jail in ${SCRIPT_DIR}/jails/$jail/update.sh"
+			echo "Missing blueprint ${!blueprint} for $jail in ${SCRIPT_DIR}/blueprints/${!blueprint}/install.sh"
+			exit 1
 		fi
 	done
 fi
@@ -190,11 +215,17 @@ else
 	echo "jails to update ${upgradejails[@]}"
 	for jail in "${upgradejails[@]}"
 	do
-		if [ -f "${SCRIPT_DIR}/jails/$jail/update.sh" ]
+		blueprint=jail_${jail}_blueprint
+		if [ -z "${!blueprint}" ]
+			then
+			echo "Config for ${jail} in config.yml incorrect. Please check your config."
+			exit 1
+		elif [ -f "${SCRIPT_DIR}/blueprints/${!blueprint}/update.sh" ]
 		then
 			echo "Currently Upgrading is not yet included in this script."
 		else
-			echo "Missing update script for $jail in ${SCRIPT_DIR}/jails/$jail/update.sh"
+			echo "Currently Upgrading is not yet included in this script."
+			exit 1
 		fi
 	done
 fi
