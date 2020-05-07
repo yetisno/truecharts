@@ -48,6 +48,11 @@ Example:
 Example:
 `./jailman.sh -r sonarr`
 
+- Update:
+`./jailman.sh -u $jailname`
+Example:
+`./jailman.sh -u sonarr`
+
 - Destroy
 `./jailman.sh -d $jailname`
 Example:
