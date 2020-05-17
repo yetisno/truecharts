@@ -5,7 +5,7 @@
 
 ---
 
-[![GitHub last commit](https://img.shields.io/github/last-commit/ornias1993/jailman/dev.svg)](https://github.com/ornias1993/jailman/commits/dev) [![Krihelimeter](http://www.krihelinator.xyz/badge/ornias1993/jailman)](http://www.krihelinator.xyz/repositories/ornias1993/jailman) [![GitHub Release](https://img.shields.io/github/release/ornias1993/jailman.svg)](https://github.com/ornias1993/jailman/releases/latest) [![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-blue.svg)](https://github.com/ornias1993/jailman/blob/master/docs/LICENSE.GPLV2) [![License](https://img.shields.io/badge/License-BSD%202--Clause-orange.svg)](https://github.com/ornias1993/jailman/blob/master/docs/LICENSE.BSD2)
+[![GitHub last commit](https://img.shields.io/github/last-commit/ornias1993/jailman/dev.svg)](https://github.com/ornias1993/jailman/commits/dev) [![GitHub Release](https://img.shields.io/github/release/ornias1993/jailman.svg)](https://github.com/ornias1993/jailman/releases/latest) [![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-blue.svg)](https://github.com/ornias1993/jailman/blob/master/docs/LICENSE.GPLV2) [![License](https://img.shields.io/badge/License-BSD%202--Clause-orange.svg)](https://github.com/ornias1993/jailman/blob/master/docs/LICENSE.BSD2)
 
 ## Intro
 
@@ -48,6 +48,11 @@ Example:
 Example:
 `./jailman.sh -r sonarr`
 
+- Update:
+`./jailman.sh -u $jailname`
+Example:
+`./jailman.sh -u sonarr`
+
 - Destroy
 `./jailman.sh -d $jailname`
 Example:
@@ -72,9 +77,11 @@ Basic means: The same setup as a FreeNAS plugin would've, DHCP on bridge0.
 - py-kms
 - nextcloud
 - bitwarden
+- unifi controller
 
 #### Backend
 - mariadb
+- influxdb
 
 #### Downloads
 
