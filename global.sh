@@ -28,7 +28,7 @@ git remote add upstream https://github.com/jailmanager/jailman.git > /dev/null 2
 echo "checking for updates using Branch: $1"
 git fetch upstream > /dev/null 2>&1
 git update-index -q --refresh > /dev/null 2>&1
-CHANGED=$(git diff --name-only "$1") > /dev/null 2>&1
+CHANGED=$(git diff --name-only "$1")
 if [ -n "$CHANGED" ];
 then
     echo "script requires update"
