@@ -20,13 +20,13 @@ if ! [ "$(id -u)" = 0 ]; then
 fi
 
 # Auto Update
-BRANCH="master"
+BRANCH="upstream/master"
 gitupdate ${BRANCH}
 
 # If no option is given, point to the help menu
 if [ $# -eq 0 ]
 then
-        echo "Missing options!"
+echo "Missing options!"
         echo "(run $0 -h for help)"
         echo ""
         exit 0

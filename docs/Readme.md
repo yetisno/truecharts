@@ -5,7 +5,7 @@
 
 ---
 
-[![GitHub last commit](https://img.shields.io/github/last-commit/ornias1993/jailman/dev.svg)](https://github.com/ornias1993/jailman/commits/dev) [![GitHub Release](https://img.shields.io/github/release/ornias1993/jailman.svg)](https://github.com/ornias1993/jailman/releases/latest) [![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-blue.svg)](https://github.com/ornias1993/jailman/blob/master/docs/LICENSE.GPLV2) [![License](https://img.shields.io/badge/License-BSD%202--Clause-orange.svg)](https://github.com/ornias1993/jailman/blob/master/docs/LICENSE.BSD2)
+[![GitHub last commit](https://img.shields.io/github/last-commit/jailmanager/jailman/dev.svg)](https://github.com/jailmanager/jailman/commits/dev) [![GitHub Release](https://img.shields.io/github/release/jailmanager/jailman.svg)](https://github.com/jailmanager/jailman/releases/latest) [![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-blue.svg)](https://github.com/jailmanager/jailman/blob/master/docs/LICENSE.GPLV2) [![License](https://img.shields.io/badge/License-BSD%202--Clause-orange.svg)](https://github.com/jailmanager/jailman/blob/master/docs/LICENSE.BSD2)
 
 ## Intro
 
@@ -19,7 +19,7 @@ The goal of this project is to be able to install, update, reinstall, upgrade an
 ### Installing
 - Get into FreeNAS using the in-gui console or SSH.
 Run the following commands to install jailman:
-- `git clone https://github.com/Ornias1993/jailman.git`
+- `git clone https://github.com/jailmanager/jailman.git`
 - `cd jailman`
 - `cp config.yml.example config.yml`
 - edit config.yml to reflect your personal settings (optional, see "use")
