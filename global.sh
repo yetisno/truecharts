@@ -26,15 +26,15 @@ parse_yaml() {
 gitupdate() {
 git remote add upstream https://github.com/jailmanager/jailman.git > /dev/null 2>&1
 echo "checking for updates using Branch: $1"
-git fetch upstream
-git update-index -q --refresh
-CHANGED=$(git diff --name-only "$1")
+git fetch upstream > /dev/null 2>&1
+git update-index -q --refresh > /dev/null 2>&1
+CHANGED=$(git diff --name-only "$1") > /dev/null 2>&1
 if [ -n "$CHANGED" ];
 then
     echo "script requires update"
-    git reset --hard
-    git checkout "${1}"
-    git pull
+    git reset --hard > /dev/null 2>&1
+    git checkout "${1}" > /dev/null 2>&1
+    git pull > /dev/null 2>&1
     echo "script updated, please restart the script manually"
     exit 1
 else
