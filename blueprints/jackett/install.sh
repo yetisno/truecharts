@@ -1,7 +1,7 @@
 #!/usr/local/bin/bash
 # This file contains the install script for jackett
 
-iocage exec "$1" "fetch https://github.com/Jackett/Jackett/releases/download/v0.11.502/Jackett.Binaries.Mono.tar.gz -o /usr/local/share"
+iocage exec "$1" "fetch https://github.com/Jackett/Jackett/releases/download/v0.16.546/Jackett.Binaries.Mono.tar.gz -o /usr/local/share"
 iocage exec "$1" "tar -xzvf /usr/local/share/Jackett.Binaries.Mono.tar.gz -C /usr/local/share"
 iocage exec "$1" rm /usr/local/share/Jackett.Binaries.Mono.tar.gz
 iocage exec "$1" "pw user add jackett -c jackett -u 818 -d /nonexistent -s /usr/bin/nologin"
