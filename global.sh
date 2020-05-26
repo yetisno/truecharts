@@ -95,13 +95,13 @@ fi
 rm /tmp/pkg.json
 echo "creating jail config directory"
 # shellcheck disable=SC2154
-createmount "${1}" "${global_dataset_config}"
-createmount "${1}" "${global_dataset_config}"/"${1}" /config
+createmount "${1}" "${global_dataset_config}" || exit 1
+createmount "${1}" "${global_dataset_config}"/"${1}" /config || exit 1
 
 # Create and Mount portsnap
-createmount "${1}" "${global_dataset_config}"/portsnap
-createmount "${1}" "${global_dataset_config}"/portsnap/db /var/db/portsnap
-createmount "${1}" "${global_dataset_config}"/portsnap/ports /usr/ports
+createmount "${1}" "${global_dataset_config}"/portsnap || exit 1
+createmount "${1}" "${global_dataset_config}"/portsnap/db /var/db/portsnap || exit 1
+createmount "${1}" "${global_dataset_config}"/portsnap/ports /usr/ports || exit 1
 if [ "${!blueprintports}" == "true" ]
 then
 	echo "Mounting and fetching ports"
@@ -125,7 +125,7 @@ createmount() {
 	else
 		if [ ! -d "/mnt/$2" ]; then
 			echo "Dataset does not exist... Creating... $2"
-			zfs create "${2}"
+			zfs create "${2}" || exit 1
 		else
 			echo "Dataset already exists, skipping creation of $2"
 		fi
@@ -133,9 +133,9 @@ createmount() {
 		if [ -n "$1" ] && [ -n "$3" ]; then
 			iocage exec "${1}" mkdir -p "${3}"
 			if [ -n "${4}" ]; then
-				iocage fstab -a "${1}" /mnt/"${2}" "${3}" "${4}"
+				iocage fstab -a "${1}" /mnt/"${2}" "${3}" "${4}" || exit 1
 			else
-				iocage fstab -a "${1}" /mnt/"${2}" "${3}" nullfs rw 0 0
+				iocage fstab -a "${1}" /mnt/"${2}" "${3}" nullfs rw 0 0 || exit 1
 			fi
 		else
 			echo "No Jail Name or Mount target specified, not mounting dataset"
