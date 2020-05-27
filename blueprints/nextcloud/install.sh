@@ -142,8 +142,6 @@ fi
 
 iocage exec "${1}" sysrc redis_enable="YES"
 iocage exec "${1}" sysrc php_fpm_enable="YES"
-iocage exec "${1}" sh -c "make -C /usr/ports/www/php73-opcache clean install BATCH=yes"
-iocage exec "${1}" sh -c "make -C /usr/ports/devel/php73-pcntl clean install BATCH=yes"
 
 
 #####
