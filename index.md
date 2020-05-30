@@ -6,7 +6,7 @@ Jail Manager is the community that maintains JailMan.
 JailMan is a one-line iocage jail management and deployment tool for FreeNAS and FreeBSD.
 If you are interested in using JailMan, please visit us on github [github](https://github.com/jailmanager/jailman/)
 
-## Supported operating systems
+### Supported operating systems
 
 While we always aim to improve, we have a limited capacity to support older or newer operating systems. Our focus is the current version of FreeNAS and, the future, TrueNAS CORE.
 That being said: We do look forward to support more operating systems like FreeBSD and Linux.
