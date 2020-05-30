@@ -17,8 +17,8 @@ While we can't make promises due to the nature of opensource development, we aim
 
 Our current roadmap is as follows:
 
-Next Minor release: Before 01-07-2020
-Next Major release: Before 01-09-2020
+- Next Minor release: Before 01-07-2020
+- Next Major release: Before 01-09-2020
 
 
 ### Support or Contact
