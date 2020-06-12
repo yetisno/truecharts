@@ -63,10 +63,7 @@ iocage exec "${1}" sysrc unifi_enable=YES
 iocage exec "${1}" service unifi start
 
 # shellcheck disable=SC2154
-if [[ ! "${!POLLER}" ]]; then
-  echo "Installation complete!"
-  echo "Unifi Controller is accessible at https://${JAIL_IP}:8443."
-else
+if [ "${!POLLER}" = true ]; then
   # Check if influxdb container exists, create unifi database if it does, error if it is not.
   echo "Checking if the database jail and database exist..."
   if [[ -d /mnt/"${global_dataset_iocage}"/jails/"${!DB_JAIL}" ]]; then
@@ -116,4 +113,7 @@ else
   echo "Unifi Controller is accessible at https://${JAIL_IP}:8443."
   echo "Please login to the Unifi Controller and add ${UP_USER} as a read-only user."
   echo "In Grafana, add Unifi-Poller as a data source."
+else
+  echo "Installation complete!"
+  echo "Unifi Controller is accessible at https://${JAIL_IP}:8443."
 fi
