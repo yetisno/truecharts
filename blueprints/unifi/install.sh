@@ -63,7 +63,7 @@ iocage exec "${1}" sysrc unifi_enable=YES
 iocage exec "${1}" service unifi start
 
 # shellcheck disable=SC2154
-if [ "${!POLLER}" = true ]; then
+if [ "${!POLLER}" == true ]; then
   # Check if influxdb container exists, create unifi database if it does, error if it is not.
   echo "Checking if the database jail and database exist..."
   if [[ -d /mnt/"${global_dataset_iocage}"/jails/"${!DB_JAIL}" ]]; then
