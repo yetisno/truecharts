@@ -50,7 +50,7 @@ if [ -z "${JAIL_IP}" ]; then
   exit 1
 fi
 
-if [ -z "${ADMIN_PASSWORD}" ]; then
+if [ -z "${!ADMIN_PASSWORD}" ]; then
   echo 'Configuration error: The Nextcloud jail requires a admin_password'
   echo 'Please reinstall using a fixed IP adress'
   exit 1
@@ -130,7 +130,7 @@ iocage exec "${1}" chmod -R 770 /config/files
 #####
 
 if [ "${DB_TYPE}" = "mariadb" ]; then
-  iocage exec "${1}" pkg install -qy mariadb103-client php73-pdo_mysql php73-mysqli
+  iocage exec "${1}" pkg install -qy mariadb104-client php74-pdo_mysql php74-mysqli
 fi
 
 fetch -o /tmp https://getcaddy.com
@@ -150,7 +150,7 @@ iocage exec "${1}" sysrc php_fpm_enable="YES"
 #
 #####
 
-FILE="latest-18.tar.bz2"
+FILE="latest-19.tar.bz2"
 if ! iocage exec "${1}" fetch -o /tmp https://download.nextcloud.com/server/releases/"${FILE}" https://download.nextcloud.com/server/releases/"${FILE}".asc https://nextcloud.com/nextcloud.asc
 then
 	echo "Failed to download Nextcloud"
@@ -165,6 +165,7 @@ then
 fi
 iocage exec "${1}" tar xjf /tmp/"${FILE}" -C /usr/local/www/
 iocage exec "${1}" chown -R www:www /usr/local/www/nextcloud/
+iocage exec "${1}" pw usermod www -G redis
 
 
 # Generate and install self-signed cert, if necessary
@@ -231,7 +232,7 @@ else
 	# Save passwords for later reference
 	iocage exec "${1}" echo "${DB_NAME} root password is ${DB_ROOT_PASSWORD}" > /root/"${1}"_db_password.txt
 	iocage exec "${1}" echo "Nextcloud database password is ${!DB_PASSWORD}" >> /root/"${1}"_db_password.txt
-	iocage exec "${1}" echo "Nextcloud Administrator password is ${ADMIN_PASSWORD}" >> /root/"${1}"_db_password.txt
+	iocage exec "${1}" echo "Nextcloud Administrator password is ${!ADMIN_PASSWORD}" >> /root/"${1}"_db_password.txt
 	
 	# CLI installation and configuration of Nextcloud
 	if [ "${DB_TYPE}" = "mariadb" ]; then
@@ -246,7 +247,7 @@ else
 	iocage exec "${1}" su -m www -c 'php /usr/local/www/nextcloud/occ config:system:set loglevel --value="2"'
 	iocage exec "${1}" su -m www -c 'php /usr/local/www/nextcloud/occ config:system:set logrotate_size --value="104847600"'
 	iocage exec "${1}" su -m www -c 'php /usr/local/www/nextcloud/occ config:system:set memcache.local --value="\OC\Memcache\APCu"'
-	iocage exec "${1}" su -m www -c 'php /usr/local/www/nextcloud/occ config:system:set redis host --value="/tmp/redis.sock"'
+	iocage exec "${1}" su -m www -c 'php /usr/local/www/nextcloud/occ config:system:set redis host --value="/var/run/redis/redis.sock"'
 	iocage exec "${1}" su -m www -c 'php /usr/local/www/nextcloud/occ config:system:set redis port --value=0 --type=integer'
 	iocage exec "${1}" su -m www -c 'php /usr/local/www/nextcloud/occ config:system:set memcache.locking --value="\OC\Memcache\Redis"'
 	iocage exec "${1}" su -m www -c "php /usr/local/www/nextcloud/occ config:system:set overwritehost --value=\"${!HOST_NAME}\""
@@ -287,7 +288,7 @@ if [ "${REINSTALL}" == "true" ]; then
 	echo "You did a reinstall, please use your old database and account credentials"
 else
 
-	echo "Default user is admin, password is ${ADMIN_PASSWORD}"
+	echo "Default user is admin, password is ${!ADMIN_PASSWORD}"
 	echo ""
 
 	echo "Database Information"
