@@ -20,8 +20,7 @@ if ! [ "$(id -u)" = 0 ]; then
 fi
 
 # Auto Update
-BRANCH="upstream/master"
-gitupdate ${BRANCH}
+gitupdate $(git for-each-ref --format='%(upstream:short)' "$(git symbolic-ref -q HEAD)") || exit 1
 
 # If no option is given, point to the help menu
 if [ $# -eq 0 ]
@@ -197,7 +196,7 @@ else
 		then
 			echo "Updating $jail"
 			iocage update "${jail}"
-			iocage exec "${jail}" "pkg update && pkg upgrade -y" && "${SCRIPT_DIR}"/jails/"${!blueprint}"/update.sh
+			iocage exec "${jail}" "pkg update && pkg upgrade -y" && "${SCRIPT_DIR}"/blueprints/"${!blueprint}"/update.sh "${jail}"
 			iocage restart "${jail}"
 			iocage start "${jail}"
 		else

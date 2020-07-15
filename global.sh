@@ -24,21 +24,29 @@ parse_yaml() {
 
 # automatic update function
 gitupdate() {
-git remote add upstream https://github.com/jailmanager/jailman.git > /dev/null 2>&1
-echo "checking for updates using Branch: $1"
-git fetch upstream > /dev/null 2>&1
-git update-index -q --refresh > /dev/null 2>&1
-CHANGED=$(git diff --name-only "$1")
-if [ -n "$CHANGED" ];
+if [ "$(git config --get remote.origin.url)" = "https://github.com/Ornias1993/jailman" ]
 then
-    echo "script requires update"
-    git reset --hard > /dev/null 2>&1
-    git checkout "${1}" > /dev/null 2>&1
-    git pull > /dev/null 2>&1
-    echo "script updated, please restart the script manually"
-    exit 1
+	echo "The repository has been moved, please reinstall using the new repository: jailmanager/jailman"
+	exit 1
+fi
+if [ "$1" = "" ] || [ "$1" = "HEAD" ];
+then
+	echo "Detatched or invalid GIT HEAD detected, please reinstall"
 else
-    echo "script up-to-date"
+	echo "checking for updates using Branch: $1"
+	git fetch > /dev/null 2>&1
+	git update-index -q --refresh > /dev/null 2>&1
+	CHANGED=$(git diff --name-only "$1")
+	if [ -n "$CHANGED" ];
+	then
+		echo "script requires update"
+		git reset --hard > /dev/null 2>&1
+		git pull > /dev/null 2>&1
+		echo "script updated, please restart the script manually"
+		exit 1
+	else
+		echo "script up-to-date"
+	fi
 fi
 }
 
@@ -87,13 +95,13 @@ fi
 rm /tmp/pkg.json
 echo "creating jail config directory"
 # shellcheck disable=SC2154
-createmount "${1}" "${global_dataset_config}"
-createmount "${1}" "${global_dataset_config}"/"${1}" /config
+createmount "${1}" "${global_dataset_config}" || exit 1
+createmount "${1}" "${global_dataset_config}"/"${1}" /config || exit 1
 
 # Create and Mount portsnap
-createmount "${1}" "${global_dataset_config}"/portsnap
-createmount "${1}" "${global_dataset_config}"/portsnap/db /var/db/portsnap
-createmount "${1}" "${global_dataset_config}"/portsnap/ports /usr/ports
+createmount "${1}" "${global_dataset_config}"/portsnap || exit 1
+createmount "${1}" "${global_dataset_config}"/portsnap/db /var/db/portsnap || exit 1
+createmount "${1}" "${global_dataset_config}"/portsnap/ports /usr/ports || exit 1
 if [ "${!blueprintports}" == "true" ]
 then
 	echo "Mounting and fetching ports"
@@ -117,7 +125,7 @@ createmount() {
 	else
 		if [ ! -d "/mnt/$2" ]; then
 			echo "Dataset does not exist... Creating... $2"
-			zfs create "${2}"
+			zfs create "${2}" || exit 1
 		else
 			echo "Dataset already exists, skipping creation of $2"
 		fi
@@ -125,9 +133,9 @@ createmount() {
 		if [ -n "$1" ] && [ -n "$3" ]; then
 			iocage exec "${1}" mkdir -p "${3}"
 			if [ -n "${4}" ]; then
-				iocage fstab -a "${1}" /mnt/"${2}" "${3}" "${4}"
+				iocage fstab -a "${1}" /mnt/"${2}" "${3}" "${4}" || exit 1
 			else
-				iocage fstab -a "${1}" /mnt/"${2}" "${3}" nullfs rw 0 0
+				iocage fstab -a "${1}" /mnt/"${2}" "${3}" nullfs rw 0 0 || exit 1
 			fi
 		else
 			echo "No Jail Name or Mount target specified, not mounting dataset"

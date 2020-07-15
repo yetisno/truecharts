@@ -35,22 +35,33 @@ if [ "$(ls -A "/mnt/${global_dataset_config}/${1}/db")" ]; then
 fi
 
 # Mount database dataset and set zfs preferences
-createmount "${1}" "${global_dataset_config}"/"${1}"/db /var/db/mysql
+iocage exec "${1}" rm -Rf /usr/local/etc/mysql/my.cnf
+createmount "${1}" "${global_dataset_config}"/"${1}"/db /config/db
 zfs set recordsize=16K "${global_dataset_config}"/"${1}"/db
 zfs set primarycache=metadata "${global_dataset_config}"/"${1}"/db
 
-iocage exec "${1}" chown -R 88:88 /var/db/mysql
+iocage exec "${1}" "pw groupadd -n mysql -g 88"
+iocage exec "${1}" "pw useradd -n mysql -u 88 -d /nonexistent -s /usr/sbin/nologin -g mysql"
+
+iocage exec "${1}" chown -R mysql:mysql /config
+
+iocage exec "${1}" sysrc mysql_optfile=/config/my.cnf
+iocage exec "${1}" sysrc mysql_dbdir=/config/db
+iocage exec "${1}" sysrc mysql_pidfile=/config/mysql.pid
+iocage exec "${1}" sysrc mysql_enable="YES"
 
 # Install includes fstab
 iocage exec "${1}" mkdir -p /mnt/includes
 iocage fstab -a "${1}" "${INCLUDES_PATH}" /mnt/includes nullfs rw 0 0
 
-iocage exec "${1}" mkdir -p /usr/local/www/phpmyadmin
-iocage exec "${1}" chown -R www:www /usr/local/www/phpmyadmin
+iocage exec "${1}" cp -f /mnt/includes/my.cnf /config/my.cnf
+iocage exec "${1}" cp -f /mnt/includes/config.inc.php /usr/local/www/phpMyAdmin/config.inc.php
+iocage exec "${1}" sed -i '' "s|mypassword|${!DB_ROOT_PASSWORD}|" /config/my.cnf
+iocage exec "${1}" ln -s /config/my.cnf /usr/local/etc/mysql/my.cnf
 
 #####
 # 
-# Install mariadb, Caddy and PhpMyAdmin
+# Install Caddy and PhpMyAdmin
 #
 #####
 
@@ -60,8 +71,6 @@ then
 	echo "Failed to download/install Caddy"
 	exit 1
 fi
-
-iocage exec "${1}" sysrc mysql_enable="YES"
 
 # Copy and edit pre-written config files
 echo "Copying Caddyfile for no SSL"
@@ -84,7 +93,6 @@ if [ "${REINSTALL}" == "true" ]; then
 else
 	
 	# Secure database, set root password, create Nextcloud DB, user, and password
-	iocage exec "${1}" cp -f /mnt/includes/my-system.cnf /var/db/mysql/my.cnf
 	iocage exec "${1}" mysql -u root -e "DELETE FROM mysql.user WHERE User='';"
 	iocage exec "${1}" mysql -u root -e "DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');"
 	iocage exec "${1}" mysql -u root -e "DROP DATABASE IF EXISTS test;"
@@ -92,8 +100,6 @@ else
 	iocage exec "${1}" mysqladmin --user=root password "${!DB_ROOT_PASSWORD}"
 	iocage exec "${1}" mysqladmin reload
 fi
-iocage exec "${1}" cp -f /mnt/includes/my.cnf /root/.my.cnf
-iocage exec "${1}" sed -i '' "s|mypassword|${!DB_ROOT_PASSWORD}|" /root/.my.cnf
 
 # Save passwords for later reference
 iocage exec "${1}" echo "MariaDB root password is ${!DB_ROOT_PASSWORD}" > /root/"${1}"_db_password.txt
