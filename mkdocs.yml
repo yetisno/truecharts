@@ -2,11 +2,12 @@
 site_name: JailMan
 site_description: 'Project Documentation for JailManager'
 site_author: 'JailManager Team'
-site_url: 'https://jailmanager.org'
+docs_dir: content/
+site_url: 'https://wiki2.jailmanager.org'
 
 # Repository
 repo_name: 'jailmanager/wiki'
-repo_url: 'jailmanager/wiki'
+repo_url: 'https://github.com/jailmanager/wiki'
 edit_uri: 'edit/dev/docs/'
 
 theme:
