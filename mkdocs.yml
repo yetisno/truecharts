@@ -6,9 +6,9 @@ docs_dir: content/
 site_url: 'https://wiki2.jailmanager.org'
 
 # Repository
-repo_name: 'jailmanager/wiki'
-repo_url: 'https://github.com/jailmanager/wiki'
-edit_uri: 'edit/dev/docs/'
+repo_name: 'jailmanager/jailman'
+repo_url: 'https://github.com/jailmanager/jailman'
+edit_uri: 'edit/content/'
 
 theme:
   name: 'material'
