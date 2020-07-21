@@ -6,7 +6,7 @@ Be aware that Bazarr doesn't scan disk to detect series and movies: It only take
 
 Thanks to the folks at OpenSubtitles for their logo that was an inspiration for ours.
 
-For more information about Bazarr, please checkout:
+**For more information about Bazarr, please checkout:**
 
 https://github.com/morpheus65535/bazarr
 
