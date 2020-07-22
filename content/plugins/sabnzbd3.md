@@ -1,4 +1,7 @@
-# Plugin Template
+# Sabnzbd v3
 
-This Repository contains a templatate to base your plugin on.
-Please be aware: When submitting your plugin, this readme gets added to the Wiki
+SABnzbd is a multi-platform binary newsgroup downloader. The program works in the background and simplifies the downloading verifying and extracting of files from Usenet.
+V3. is the newest (beta) version of Sabnzbd
+
+**For more information about Sabnzbd, please checkout:**
+https://sabnzbd.org/
