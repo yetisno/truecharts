@@ -15,5 +15,5 @@ Once setup one can reach all the variables of the linked jail using the followin
 `link_$Name_$variable`
 
 For example if we want the ipv4 address of the jail we linked earlier, during the install of another jail, we would do:
-`link_testjail_ip4_addr`
+`${link_testjail_ip4_addr}`
 	
