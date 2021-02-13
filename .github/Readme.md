@@ -3,6 +3,9 @@
 
 ### JailMan is a collection of shell scripts designed to make it easier to install all sorts of iocage Jails on FreeNAS.
 
+## Important:
+### Jailman as a project has stopped development in favor of [TrueCharts](https://github.com/truecharts/truecharts) for TrueNAS SCALE.
+
 ---
 
 [![GitHub last commit](https://img.shields.io/github/last-commit/jailmanager/jailman/dev.svg)](https://github.com/jailmanager/jailman/commits/dev) [![GitHub Release](https://img.shields.io/github/release/jailmanager/jailman.svg)](https://github.com/jailmanager/jailman/releases/latest) [![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-blue.svg)](https://github.com/jailmanager/jailman/blob/master/docs/LICENSE.GPLV2) [![License](https://img.shields.io/badge/License-BSD%202--Clause-orange.svg)](https://github.com/jailmanager/jailman/blob/master/docs/LICENSE.BSD2)
