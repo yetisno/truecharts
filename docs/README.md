@@ -10,3 +10,4 @@ It contains:
 - 1 library train (which is not processed by CI
 - 1 example library (common)
 - Basic CI to test PR's and catalog-health
+- docs folder (ignored by testing) with readme.md file
