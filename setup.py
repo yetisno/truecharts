@@ -6,20 +6,8 @@ from os.path import abspath, dirname, join
 README_MD = open(join(dirname(abspath(__file__)), "README.md")).read()
 
 setup(
-    # The name of your project that we discussed earlier.
-    # This name will decide what users will type when they install your package.
-    # In my case it will be:
-    # pip install pydash-arnu515
-    # This field is REQUIRED
-    name="pydash-arnu515",
-
-    # The version of your project.
-    # Usually, it would be in the form of:
-    # major.minor.patch
-    # eg: 1.0.0, 1.0.1, 3.0.2, 5.0-beta, etc.
-    # You CANNOT upload two versions of your package with the same version number
-    # This field is REQUIRED
-    version="1.0.1",
+    name="trueupdate",
+    version="1.0.0",
 
     # The packages that constitute your project.
     # For my project, I have only one - "pydash".
@@ -29,12 +17,12 @@ setup(
     # If you only have one file, instead of a package,
     # you can instead use the py_modules field instead.
     # EITHER py_modules OR packages should be present.
-    packages=find_packages(exclude="tests"),
+    packages=find_packages(),
 
     # The description that will be shown on PyPI.
     # Keep it short and concise
     # This field is OPTIONAL
-    description="A small clone of lodash",
+    description="An Automatic and Bulk update utility for TrueNAS SCALE Apps",
 
     # The content that will be shown on your project page.
     # In this case, we're displaying whatever is there in our README.md file
@@ -51,26 +39,12 @@ setup(
     # The url field should contain a link to a git repository, the project's website
     # or the project's documentation. I'll leave a link to this project's Github repository.
     # This field is OPTIONAL
-    url="https://github.com/arnu515/pydash",
+    url="https://github.com/truecharts/trueupdate",
 
     # The author name and email fields are self explanatory.
     # These fields are OPTIONAL
-    author_name="arnu515",
-    author_email="arnu5152@gmail.com",
-
-    # Classifiers help categorize your project.
-    # For a complete list of classifiers, visit:
-    # https://pypi.org/classifiers
-    # This is OPTIONAL
-    classifiers=[
-        "License :: OSI Approved :: MIT License",
-        "Intended Audience :: Developers",
-        "Programming Language :: Python :: 3 :: Only"
-    ],
-
-    # Keywords are tags that identify your project and help searching for it
-    # This field is OPTIONAL
-    keywords="lodash, string, manipulation",
+    author_name="truecharts",
+    author_email="into@truecharts.org",
 
     # For additional fields, check:
     # https://github.com/pypa/sampleproject/blob/master/setup.py
