@@ -1,4 +1,4 @@
 import trueupdate
 
 def main():
-    print trueupdate.run()
+    trueupdate.run()
