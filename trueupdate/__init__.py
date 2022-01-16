@@ -76,7 +76,7 @@ def fetch_charts():
   charts = rawcharts.stdout.decode('utf-8')
   return(charts)
   
-def run()
+def run():
     get_args()
     charts = fetch_charts()
     parse_charts(charts)
