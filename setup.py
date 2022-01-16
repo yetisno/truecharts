@@ -21,7 +21,7 @@ setup(
     
     entry_points = {
         'console_scripts': ['trueupdate=trueupdate.command_line:main'],
-    }
+    },
 
     # The description that will be shown on PyPI.
     # Keep it short and concise
