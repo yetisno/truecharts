@@ -76,6 +76,12 @@ def fetch_charts():
   charts = rawcharts.stdout.decode('utf-8')
   return(charts)
   
+def run()
+    get_args()
+    charts = fetch_charts()
+    parse_charts(charts)
+    execute_upgrades()
+  
 def get_args():
   if len(sys.argv) == 3:
     SEMVER = sys.argv[2] or "minor"
@@ -83,8 +89,6 @@ def get_args():
     CATALOG = sys.argv[1] or "ALL"
 
 if __name__ == '__main__':
-    get_args()
-    charts = fetch_charts()
-    parse_charts(charts)
-    execute_upgrades()
+    run()
     exit(0)
+

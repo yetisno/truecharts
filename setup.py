@@ -7,7 +7,7 @@ README_MD = open(join(dirname(abspath(__file__)), "README.md")).read()
 
 setup(
     name="trueupdate",
-    version="1.0.0",
+    version="1.0.1",
 
     # The packages that constitute your project.
     # For my project, I have only one - "pydash".
@@ -18,6 +18,10 @@ setup(
     # you can instead use the py_modules field instead.
     # EITHER py_modules OR packages should be present.
     packages=find_packages(),
+    
+    entry_points = {
+        'console_scripts': ['trueupdate=trueupdate.command_line:main'],
+    }
 
     # The description that will be shown on PyPI.
     # Keep it short and concise
