@@ -90,6 +90,8 @@ def process_args():
     VERSIONING = args.versioning
     if args.sync:
       SYNC = True
+    else:
+      SYNC = False
     
 def sync_catalog():
     if SYNC:
