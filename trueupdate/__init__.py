@@ -1,5 +1,7 @@
 import subprocess
 import sys
+import argparse
+import time
 
 class Chart(object):
     def __setattr__(self, name, value):
@@ -13,8 +15,6 @@ class Chart(object):
         setattr(self, attr, attr)
 
 INSTALLED_CHARTS = []
-CATALOG = "ALL"
-SEMVER = "minor"
 
 def parse_headers(charts: str):
     for line in charts.split("\n"):
@@ -38,11 +38,11 @@ def check_semver(current: str, latest: str):
     split_latest_semver = latest.split(".", 3)
     if split_current_semver[0] != split_latest_semver[0]:
       type="major"
-      if SEMVER == "major":
+      if VERSIONING == "major":
         return True
     if split_current_semver[1] != split_latest_semver[1]:
       type="minor"
-      if SEMVER != "patch":
+      if VERSIONING != "patch":
         return True
     if split_current_semver[2] != split_latest_semver[2]:
       type="patch"
@@ -63,32 +63,55 @@ def execute_upgrades():
       split_latest = chart.human_latest_version.split("_", 1)
       latest_version = split_latest[1]
       if check_semver(current_version, latest_version):
-        pre_update_ver = chart.human_version
-        result = subprocess.run(['cli', '-c', f'app chart_release upgrade release_name={chart.name}'], capture_output=True)
-        post_update_ver = chart.human_latest_version
-        if "Upgrade complete" not in result.stdout.decode('utf-8'):
-            print(f"{chart.name} failed to upgrade. \n{result.stdout.decode('utf-8')}")
-        else:
-            print(f"{chart.name} upgraded ({pre_update_ver} --> {post_update_ver})")
+        print(f"Updating {chart.name}... \n")
+        #pre_update_ver = chart.human_version
+        #result = subprocess.run(['cli', '-c', f'app chart_release upgrade release_name={chart.name}'], capture_output=True)
+        #post_update_ver = chart.human_latest_version
+        #if "Upgrade complete" not in result.stdout.decode('utf-8'):
+        #    print(f"{chart.name} failed to upgrade. \n{result.stdout.decode('utf-8')}")
+        #else:
+        #    print(f"{chart.name} upgraded ({pre_update_ver} --> {post_update_ver})")
 
 def fetch_charts():
   rawcharts = subprocess.run(["cli", "-c", "app chart_release query"], stdout=subprocess.PIPE)
   charts = rawcharts.stdout.decode('utf-8')
   return(charts)
   
+def process_args():
+    global CATALOG
+    global SEMVER
+    global SYNC
+    parser = argparse.ArgumentParser(description='Update TrueNAS SCALE Apps')
+    parser.add_argument('--catalog', nargs='?', default='ALL', help='name of the catalog you want to process in caps. Or "ALL" to render all catalogs.')
+    parser.add_argument('--versioning', nargs='?', default='minor', help='Name of the versioning scheme you want to update. Options: major, minor or patch. Defaults to minor')
+    parser.add_argument('-s', '--sync', action="store_true", help='sync catalogs before trying to update')
+    args = parser.parse_args()
+    CATALOG = args.catalog
+    VERSIONING = args.versioning
+    if args.sync:
+      SYNC = True
+    
+def sync_catalog():
+    if SYNC:
+      print("Syncing Catalogs...\n")
+      process = subprocess.Popen(["cli", "-c", "app catalog sync_all"], stdout=subprocess.PIPE)
+      while process.poll() is None:
+          lines = process.stdout.readline()
+          print (lines)
+      print (process.stdout.read())
+  
 def run():
-    get_args()
+    process_args()
+    print("Starting TrueCharts App updater...\n")
+    sync_catalog()
     charts = fetch_charts()
     parse_charts(charts)
+    print("Executing Updates...\n")
     execute_upgrades()
-  
-def get_args():
-  if len(sys.argv) == 3:
-    SEMVER = sys.argv[2] or "minor"
-  if len(sys.argv) == 2:
-    CATALOG = sys.argv[1] or "ALL"
+    print("Updating Finished\n")
+    exit(0)
+
 
 if __name__ == '__main__':
     run()
-    exit(0)
 
