@@ -17,5 +17,6 @@ Just run `trueupdate` in the shell of your TrueNAS SCALE machine, to have it pro
 
 Additional options are available:
 
-- `trueupdate CATALOG` where CATALOG is the name of the catalog you want to process in caps
-- `trueupdate Semver` where semver is the highest semver version you want to process. options: `patch`, `minor` and `major`
+- `trueupdate -s` or ` trueupdate --sync` to sync the catalogs before running auto-update
+- `trueupdate --catalog CATALOGNAME` where CATALOGNAME is the name of the catalog you want to process in caps
+- `trueupdate --versioning SCHEME` where SCHEME is the highest semver version you want to process. options: `patch`, `minor` and `major`
