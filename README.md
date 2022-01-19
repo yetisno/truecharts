@@ -18,12 +18,12 @@ running `truetool` should be a good start.
 
 Additional options are available:
 
-##### Help
+### Help
 
 - `truetool -h` for the CLI help page
 
 
-##### Update
+### Update
 
 - `truetool -u` or ` truetool --update` update TrueNAS SCALE Apps
 
@@ -33,7 +33,7 @@ Additional options are available:
 - `truetool -a` or ` truetool --all` updates both active (running) and non-active (stuck or stopped) Apps
 
 
-#### Backup
+### Backup
 - `truetool -b` or ` truetool --backup` backup the complete Apps system prior to updates
 - `truetool -r` or ` truetool --restore` restores a specific backup by name
 
