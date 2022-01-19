@@ -79,7 +79,7 @@ def fetch_charts():
   
 def process_args():
     global CATALOG
-    global SEMVER
+    global VERSIONING
     global SYNC
     global PRUNE
     parser = argparse.ArgumentParser(description='Update TrueNAS SCALE Apps')
