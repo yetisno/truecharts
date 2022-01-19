@@ -25,7 +25,7 @@ Additional options are available:
 
 ### Update
 
-- `truetool -u` or ` truetool --update` update TrueNAS SCALE Apps
+- `truetool -u` or ` truetool --update` updates TrueNAS SCALE Apps
 
 
 - `truetool --catalog CATALOGNAME` where CATALOGNAME is the name of the catalog you want to process in caps
