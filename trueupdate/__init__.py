@@ -51,7 +51,7 @@ def check_semver(current: str, latest: str):
     
 
 def execute_upgrades():
-    if ACTIVE:
+    if ALL:
       if CATALOG == "ALL":
         filtered = filter(lambda a: a.update_available and a.status == "active", INSTALLED_CHARTS)
       else:
@@ -88,13 +88,13 @@ def process_args():
     global VERSIONING
     global SYNC
     global PRUNE
-    global ACTIVE
+    global ALL
     parser = argparse.ArgumentParser(description='Update TrueNAS SCALE Apps')
     parser.add_argument('--catalog', nargs='?', default='ALL', help='name of the catalog you want to process in caps. Or "ALL" to render all catalogs.')
     parser.add_argument('--versioning', nargs='?', default='minor', help='Name of the versioning scheme you want to update. Options: major, minor or patch. Defaults to minor')
     parser.add_argument('-s', '--sync', action="store_true", help='sync catalogs before trying to update')
     parser.add_argument('-p', '--prune', action="store_true", help='prune old docker images after update')
-    parser.add_argument('-a', '--active', action="store_true", help='update "active" apps only and ignore "stopped" or "stuck" apps')
+    parser.add_argument('-a', '--all', action="store_true", help='update "active" apps only and ignore "stopped" or "stuck" apps')
     args = parser.parse_args()
     CATALOG = args.catalog
     VERSIONING = args.versioning
@@ -106,10 +106,10 @@ def process_args():
       PRUNE = True
     else:
       PRUNE = False
-    if args.active:
-      ACTIVE = True
+    if args.all:
+      ALL = True
     else:
-      ACTIVE = False
+      ALL = False
     
 def sync_catalog():
     if SYNC:

@@ -20,5 +20,6 @@ Additional options are available:
 - `trueupdate -h` for the CLI help page
 - `trueupdate -s` or ` trueupdate --sync` to sync the catalogs before running auto-update
 - `trueupdate -p` or ` trueupdate --prune` to prune (remove) old docker images after running auto-update
+- `trueupdate -a` or ` trueupdate --all` updates both active (running) and non-active (stuck or stopped) Apps
 - `trueupdate --catalog CATALOGNAME` where CATALOGNAME is the name of the catalog you want to process in caps
 - `trueupdate --versioning SCHEME` where SCHEME is the highest semver version you want to process. options: `patch`, `minor` and `major`
