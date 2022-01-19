@@ -111,7 +111,7 @@ def sync_catalog():
 def docker_prune():
     if PRUNE:
       print("Pruning old docker images...\n")
-      process = subprocess.Popen(["docker", "image ", "prune", "-af"], stdout=subprocess.PIPE)
+      process = subprocess.Popen(["docker", "image", "prune", "-af"], stdout=subprocess.PIPE)
       while process.poll() is None:
           lines = process.stdout.readline()
           print (lines)
