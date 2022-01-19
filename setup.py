@@ -7,7 +7,7 @@ README_MD = open(join(dirname(abspath(__file__)), "README.md")).read()
 
 setup(
     name="trueupdate",
-    version="2.0.2",
+    version="2.1.0",
 
     # The packages that constitute your project.
     # For my project, I have only one - "pydash".

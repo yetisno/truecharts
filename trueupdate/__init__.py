@@ -81,10 +81,12 @@ def process_args():
     global CATALOG
     global SEMVER
     global SYNC
+    global PRUNE
     parser = argparse.ArgumentParser(description='Update TrueNAS SCALE Apps')
     parser.add_argument('--catalog', nargs='?', default='ALL', help='name of the catalog you want to process in caps. Or "ALL" to render all catalogs.')
     parser.add_argument('--versioning', nargs='?', default='minor', help='Name of the versioning scheme you want to update. Options: major, minor or patch. Defaults to minor')
     parser.add_argument('-s', '--sync', action="store_true", help='sync catalogs before trying to update')
+    parser.add_argument('-p', '--prune', action="store_true", help='prune old docker images after update')
     args = parser.parse_args()
     CATALOG = args.catalog
     VERSIONING = args.versioning
@@ -92,11 +94,24 @@ def process_args():
       SYNC = True
     else:
       SYNC = False
+    if args.prune:
+      PRUNE = True
+    else:
+      PRUNE = False
     
 def sync_catalog():
     if SYNC:
       print("Syncing Catalogs...\n")
       process = subprocess.Popen(["cli", "-c", "app catalog sync_all"], stdout=subprocess.PIPE)
+      while process.poll() is None:
+          lines = process.stdout.readline()
+          print (lines)
+      print (process.stdout.read())
+  
+def docker_prune():
+    if PRUNE:
+      print("Pruning old docker images...\n")
+      process = subprocess.Popen(["docker", "image ", "prune", "-a", "-f"], stdout=subprocess.PIPE)
       while process.poll() is None:
           lines = process.stdout.readline()
           print (lines)
