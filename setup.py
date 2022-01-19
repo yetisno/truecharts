@@ -6,8 +6,8 @@ from os.path import abspath, dirname, join
 README_MD = open(join(dirname(abspath(__file__)), "README.md")).read()
 
 setup(
-    name="trueupdate",
-    version="2.3.0",
+    name="truetool",
+    version="1.0.0",
 
     # The packages that constitute your project.
     # For my project, I have only one - "pydash".
@@ -20,13 +20,13 @@ setup(
     packages=find_packages(),
     
     entry_points = {
-        'console_scripts': ['trueupdate=trueupdate.command_line:main'],
+        'console_scripts': ['truetool=truetool.command_line:main'],
     },
 
     # The description that will be shown on PyPI.
     # Keep it short and concise
     # This field is OPTIONAL
-    description="An Automatic and Bulk update utility for TrueNAS SCALE Apps",
+    description="An easy utility to managed frequently used TrueNAS SCALE CLI features",
 
     # The content that will be shown on your project page.
     # In this case, we're displaying whatever is there in our README.md file
@@ -43,7 +43,7 @@ setup(
     # The url field should contain a link to a git repository, the project's website
     # or the project's documentation. I'll leave a link to this project's Github repository.
     # This field is OPTIONAL
-    url="https://github.com/truecharts/trueupdate",
+    url="https://github.com/truecharts/truetool",
 
     # The author name and email fields are self explanatory.
     # These fields are OPTIONAL
