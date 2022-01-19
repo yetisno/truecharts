@@ -105,8 +105,10 @@ def sync_catalog():
       process = subprocess.Popen(["cli", "-c", "app catalog sync_all"], stdout=subprocess.PIPE)
       while process.poll() is None:
           lines = process.stdout.readline()
-          print (lines)
-      print (process.stdout.read())
+          print (lines.decode('utf-8'))
+      temp = process.stdout.read()
+      if temp:
+        print (temp.decode('utf-8'))
   
 def docker_prune():
     if PRUNE:
