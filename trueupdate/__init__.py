@@ -126,6 +126,7 @@ def run():
     print("Executing Updates...\n")
     execute_upgrades()
     print("Updating Finished\n")
+    docker_prune()
     exit(0)
 
 
