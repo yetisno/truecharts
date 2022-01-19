@@ -65,7 +65,7 @@ def execute_upgrades():
       if check_semver(current_version, latest_version):
         print(f"Updating {chart.name}... \n")
         pre_update_ver = chart.human_version
-        result = subprocess.run(['cli', '-c', f'app chart_release upgrade release_name={chart.name}'], capture_output=True)
+        result = subprocess.run(['cli', '-c', f'app chart_release upgrade release_name="{chart.name}"'], capture_output=True)
         post_update_ver = chart.human_latest_version
         if "Upgrade complete" not in result.stdout.decode('utf-8'):
             print(f"{chart.name} failed to upgrade. \n{result.stdout.decode('utf-8')}")
