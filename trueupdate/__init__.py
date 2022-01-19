@@ -89,12 +89,14 @@ def process_args():
     global SYNC
     global PRUNE
     global ALL
+    global BACKUP
     parser = argparse.ArgumentParser(description='Update TrueNAS SCALE Apps')
     parser.add_argument('--catalog', nargs='?', default='ALL', help='name of the catalog you want to process in caps. Or "ALL" to render all catalogs.')
     parser.add_argument('--versioning', nargs='?', default='minor', help='Name of the versioning scheme you want to update. Options: major, minor or patch. Defaults to minor')
     parser.add_argument('-s', '--sync', action="store_true", help='sync catalogs before trying to update')
     parser.add_argument('-p', '--prune', action="store_true", help='prune old docker images after update')
     parser.add_argument('-a', '--all', action="store_true", help='update "active" apps only and ignore "stopped" or "stuck" apps')
+    parser.add_argument('-b', '--backup', action="store_true", help='backup the complete Apps system prior to updates')
     args = parser.parse_args()
     CATALOG = args.catalog
     VERSIONING = args.versioning
@@ -110,6 +112,10 @@ def process_args():
       ALL = True
     else:
       ALL = False
+    if args.backup:
+      BACKUP = True
+    else:
+      BACKUP = False
     
 def sync_catalog():
     if SYNC:
@@ -127,10 +133,22 @@ def docker_prune():
       print("Pruning old docker images...\n")
       process = subprocess.Popen(["docker", "image", "prune", "-af"], stdout=subprocess.PIPE)
       print("Images pruned.\n")
+      
+def chart_backup():
+    if BACKUP:
+      print("Running App Backup...\n")
+      process = subprocess.Popen(["cli", "-c", "app kubernetes backup_chart_releases"], stdout=subprocess.PIPE)
+      while process.poll() is None:
+          lines = process.stdout.readline()
+          print (lines.decode('utf-8'))
+      temp = process.stdout.read()
+      if temp:
+        print (temp.decode('utf-8'))
   
 def run():
     process_args()
     print("Starting TrueCharts App updater...\n")
+    chart_backup()
     sync_catalog()
     charts = fetch_charts()
     parse_charts(charts)
