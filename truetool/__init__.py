@@ -207,16 +207,9 @@ def get_backups_names():
       
 def apps_restore():
     print("Running Backup Restore...\n")
-    command = "app kubernetes restore_backup backup_name="+RESTORE
-    print(f"{command}")
-    process = subprocess.Popen(["cli", "-c", command], stdout=subprocess.PIPE)
-    while process.poll() is None:
-        lines = process.stdout.readline()
-        print (lines.decode('utf-8'))
-    temp = process.stdout.read()
-    if temp:
-      print (temp.decode('utf-8'))
-
+    process = subprocess.run(["midclt", "call", "kubernetes.restore_backup", RESTORE], stdout=subprocess.PIPE)
+    time.sleep(5)
+    print("Restoration started, please check the restoration process in the TrueNAS SCALE Web GUI...\n")
   
 def run():
     process_args()
