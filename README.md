@@ -34,8 +34,9 @@ Additional options are available:
 
 
 ### Backup
-- `truetool -b` or ` truetool --backup` backup the complete Apps system prior to updates
-- `truetool -r` or ` truetool --restore` restores a specific backup by name
+- `truetool -b` or ` truetool --backup` backup the complete Apps system prior to updates. Deletes old backups prior, number of old backups can be set, 14 by default
+- `truetool -r` or ` truetool --restore` **WIP** restores a specific backup by name
+- `truetool -d` or ` truetool --delete` deletes a specific backup by name
 
 #### Other
 

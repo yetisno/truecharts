@@ -97,20 +97,24 @@ def process_args():
     global UPDATE
     global RESTORE
     global LIST
+    global DELETE
     parser = argparse.ArgumentParser(description='Update TrueNAS SCALE Apps')
     parser.add_argument('-c', '--catalog', nargs='?', default='ALL', help='name of the catalog you want to process in caps. Or "ALL" to render all catalogs.')
     parser.add_argument('-v', '--versioning', nargs='?', default='minor', help='Name of the versioning scheme you want to update. Options: major, minor or patch. Defaults to minor')
+    parser.add_argument('-b', '--backup', nargs='?', const='14', help='backup the complete Apps system prior to updates, add a number to specify the max old backups to keep')
+    parser.add_argument('-r', '--restore', nargs='?', help='restore a previous backup, disables all other features')
+    parser.add_argument('-d', '--delete', nargs='?', help='delete a specific backup')
     parser.add_argument('-s', '--sync', action="store_true", help='sync catalogs before trying to update')
     parser.add_argument('-u', '--update', action="store_true", help='update the Apps in the selected catalog')
     parser.add_argument('-p', '--prune', action="store_true", help='prune old docker images after update')
     parser.add_argument('-a', '--all', action="store_true", help='update "active" apps only and ignore "stopped" or "stuck" apps')
-    parser.add_argument('-b', '--backup', action="store_true", help='backup the complete Apps system prior to updates')
-    parser.add_argument('-r', '--restore', nargs='?', help='restore a previous backup, disables all other features')
     parser.add_argument('-l', '--list', action="store_true", help='lists existing backups')
     args = parser.parse_args()
     CATALOG = args.catalog
     VERSIONING = args.versioning
     RESTORE = args.restore
+    BACKUP = args.backup
+    DELETE = args.delete
     if args.update:
       UPDATE = True
     else:
@@ -127,10 +131,6 @@ def process_args():
       ALL = True
     else:
       ALL = False
-    if args.backup:
-      BACKUP = True
-    else:
-      BACKUP = False
     if args.list:
       LIST = True
     else:
@@ -153,13 +153,20 @@ def sync_catalog():
 def docker_prune():
     if PRUNE:
       print("Pruning old docker images...\n")
-      process = subprocess.Popen(["docker", "image", "prune", "-af"], stdout=subprocess.PIPE)
+      process = subprocess.run(["docker", "image", "prune", "-af"], stdout=subprocess.PIPE)
       print("Images pruned.\n")
     else:
       print("Container Image Pruning disabled, skipping...")
       
 def apps_backup():
     if BACKUP:
+      print(f"Cleaning old backups to a max. of {BACKUP}...\n")
+      backups_fetch = get_backups_names()
+      backups_cleaned = [k for k in backups_fetch if 'TrueTool' in k]
+      backups_remove = backups_cleaned[:len(backups_cleaned)-int(BACKUP)]
+      for backup in backups_remove:
+        backups_delete(backup)
+
       print("Running App Backup...\n")
       now = datetime.now()
       command = "app kubernetes backup_chart_releases backup_name=TrueTool_"+now.strftime("%Y_%d_%m_%H_%M_%S")
@@ -175,14 +182,28 @@ def apps_backup():
       
 def backups_list():
     if LIST:
-      print("Running App Backup...\n")
-      process = subprocess.Popen(["cli", "-c", "app kubernetes list_backups"], stdout=subprocess.PIPE)
-      while process.poll() is None:
-          lines = process.stdout.readline()
-          print (lines.decode('utf-8'))
-      temp = process.stdout.read()
-      if temp:
-        print (temp.decode('utf-8'))
+      print("Generating Backup list...\n")
+      backups = get_backups_names()
+      for backup in backups:
+        print(f"{backup}")
+        
+def backups_delete(backup: str):
+    print(f"removing {backup}...")
+    process = subprocess.run(["midclt", "call", "kubernetes.delete_backup", backup], stdout=subprocess.PIPE)
+      
+def get_backups_names():
+      names = []
+      process = subprocess.run(["cli", "-c", "app kubernetes list_backups"], stdout=subprocess.PIPE)
+      output = process.stdout.decode('utf-8')
+      for line in output.split("\n"):
+        if line.startswith("+-"):
+            continue
+        else:
+            rowlist = [col.strip() for col in line.strip().split("|") if col and col != ""]
+            if rowlist:
+              names.append(rowlist[0])
+      names.sort()
+      return names
       
 def apps_restore():
     print("Running Backup Restore...\n")
@@ -204,6 +225,8 @@ def run():
       apps_restore()
     elif LIST:
       backups_list()
+    elif DELETE:
+      backups_delete(DELETE)
     else:
       apps_backup()
       sync_catalog()
