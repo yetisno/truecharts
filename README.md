@@ -38,7 +38,13 @@ Additional options are available:
 - `truetool -r` or ` truetool --restore` **WIP** restores a specific backup by name
 - `truetool -d` or ` truetool --delete` deletes a specific backup by name
 
-#### Other
+### Other
 
 - `truetool -s` or ` truetool --sync` to sync the catalogs before running updates
 - `truetool -p` or ` truetool --prune` to prune (remove) old docker images after running auto-update
+
+### Important note
+
+Please use the above arguments seperatly, combining them might not work as you would expect.
+So use: `truetool -u -b -p -s -a`
+not: `truetool -ubpsa`
