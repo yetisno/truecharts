@@ -210,6 +210,7 @@ def apps_restore():
     process = subprocess.run(["midclt", "call", "kubernetes.restore_backup", RESTORE], stdout=subprocess.PIPE)
     time.sleep(5)
     print("Restoration started, please check the restoration process in the TrueNAS SCALE Web GUI...\n")
+    print("Please remember: This can take a LONG time.\n")
   
 def run():
     process_args()
