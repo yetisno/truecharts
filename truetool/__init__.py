@@ -98,7 +98,7 @@ def process_args():
     global RESTORE
     global LIST
     global DELETE
-    parser = argparse.ArgumentParser(description='Update TrueNAS SCALE Apps')
+    parser = argparse.ArgumentParser(description='Update TrueNAS SCALE Apps \n please do NOT combine short arguments like -ubs always use -u -b -s etc.')
     parser.add_argument('-c', '--catalog', nargs='?', default='ALL', help='name of the catalog you want to process in caps. Or "ALL" to render all catalogs.')
     parser.add_argument('-v', '--versioning', nargs='?', default='minor', help='Name of the versioning scheme you want to update. Options: major, minor or patch. Defaults to minor')
     parser.add_argument('-b', '--backup', nargs='?', const='14', help='backup the complete Apps system prior to updates, add a number to specify the max old backups to keep')
