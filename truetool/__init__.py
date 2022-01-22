@@ -55,14 +55,14 @@ def execute_upgrades():
     if UPDATE:
       if ALL:
         if CATALOG == "ALL":
-          filtered = filter(lambda a: a.update_available and a.status == "active", INSTALLED_CHARTS)
-        else:
-          filtered = filter(lambda a: a.update_available and a.status == "active" and a.catalog == CATALOG, INSTALLED_CHARTS)
-      else:
-        if CATALOG == "ALL":
           filtered = filter(lambda a: a.update_available, INSTALLED_CHARTS)
         else:
           filtered = filter(lambda a: a.update_available and a.catalog == CATALOG, INSTALLED_CHARTS)
+      else:
+        if CATALOG == "ALL":
+          filtered = filter(lambda a: a.update_available and a.status == "active", INSTALLED_CHARTS)
+        else:
+          filtered = filter(lambda a: a.update_available and a.status == "active" and a.catalog == CATALOG, INSTALLED_CHARTS)
       for chart in filtered:
         pre_update_ver = chart.human_version
         post_update_ver = chart.human_latest_version
@@ -107,7 +107,7 @@ def process_args():
     parser.add_argument('-s', '--sync', action="store_true", help='sync catalogs before trying to update')
     parser.add_argument('-u', '--update', action="store_true", help='update the Apps in the selected catalog')
     parser.add_argument('-p', '--prune', action="store_true", help='prune old docker images after update')
-    parser.add_argument('-a', '--all', action="store_true", help='update "active" apps only and ignore "stopped" or "stuck" apps')
+    parser.add_argument('-a', '--all', action="store_true", help='update all apps for said catalog, including "stopped" or "stuck" apps')
     parser.add_argument('-l', '--list', action="store_true", help='lists existing backups')
     args = parser.parse_args()
     CATALOG = args.catalog
