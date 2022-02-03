@@ -7,7 +7,7 @@ README_MD = open(join(dirname(abspath(__file__)), "README.md")).read()
 
 setup(
     name="truetool",
-    version="3.0.2",
+    version="3.0.3",
 
     # The packages that constitute your project.
     # For my project, I have only one - "pydash".
