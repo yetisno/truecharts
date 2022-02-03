@@ -169,7 +169,7 @@ def apps_backup():
 
       print("Running App Backup...\n")
       now = datetime.now()
-      command = "app kubernetes backup_chart_releases backup_name=TrueTool_"+now.strftime("%Y_%d_%m_%H_%M_%S")
+      command = "app kubernetes backup_chart_releases backup_name=TrueTool_"+now.strftime("%Y_%m_%d_%H_%M_%S")
       process = subprocess.Popen(["cli", "-c", command], stdout=subprocess.PIPE)
       while process.poll() is None:
           lines = process.stdout.readline()
