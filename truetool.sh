@@ -33,13 +33,9 @@ source includes/update.sh
 # shellcheck source=includes/update_self.sh
 source includes/update_self.sh
 
-title
-
-[[ "$enableUpdate" == "true" ]] && updater "$@"
-
-#If no argument is passed, kill the script.
+#If no argument is passed, set flag to show menu
 if [[ -z "$*" || "-" == "$*" || "--" == "$*"  ]]; then
-  no_args
+  no_args="true"
 else
 
   # Parse script options
@@ -124,6 +120,15 @@ else
           ;;
       esac
   done
+fi
+
+title
+
+[[ "$enableUpdate" == "true" ]] && updater "$@"
+
+#If no argument is passed, set flag to show menu
+if [[ "$no_args" == "true"  ]]; then
+  no_args
 fi
 
 ## Exit if incompatable functions are called
