@@ -1,0 +1,26 @@
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+name: 'Lint and Test'
+
+jobs:
+  shellcheck:
+    name: Shellcheck
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Run ShellCheck
+      uses: ludeeus/action-shellcheck@master
+      with:
+        check_together: 'yes'
+      env:
+        SHELLCHECK_OPTS: -e SC2154
+
+  pre-commit:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-python@v3
+    - uses: pre-commit/action@v3.0.0
