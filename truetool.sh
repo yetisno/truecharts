@@ -8,6 +8,8 @@ dir=$(basename "$SCRIPT_DIR")
 enableUpdate="true"
 targetRepo="https://github.com/truecharts/truetool.git"
 
+# CD to the folder containing the script to ensure consistent runs
+cd "${SCRIPT_DIR}" || echo -e "ERROR: Something went wrong accessing the script directory"
 
 # Includes
 # shellcheck source=includes/backup.sh
@@ -30,9 +32,6 @@ source includes/title.sh
 source includes/update.sh
 # shellcheck source=includes/update_self.sh
 source includes/update_self.sh
-
-# CD to the folder containing the script to ensure consistent runs
-cd "${SCRIPT_DIR}" || echo -e "${IRed}ERROR: Something went wrong accessing the script directory${Color_Off}"
 
 title
 
