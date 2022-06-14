@@ -14,38 +14,38 @@ no_args(){
   read -rt 600 -p "Please select an option by number: " selection
 
   case $selection in
-    1)
+    0)
       help="true"
       ;;
-    2)
+    1)
       dns="true"
       ;;
-    3)
+    2)
       mountPVC="true"
       ;;
-    4)
+    3)
       listBackups="true"
       ;;
-    5)
+    4)
       read -rt 600 -p "Please type the max number of backups to keep: " backups
       re='^[0-9]+$'
       number_of_backups=$backups
       ! [[ $backups =~ $re  ]] && echo -e "Error: -b needs to be assigned an interger\n\"""$number_of_backups""\" is not an interger" >&2 && exit
       [[ "$number_of_backups" -le 0 ]] && echo "Error: Number of backups is required to be at least 1" && exit
       ;;
-    6)
+    5)
       restore="true"
       ;;
-    7)
+    6)
       deleteBackup="true"
       ;;
-    8)
+    7)
       helmEnable="true"
       ;;
-    9)
+    8)
       aptEnable="true"
       ;;
-    10)
+    9)
       echo ""
       echo "1  Update Apps Excluding likely breaking major changes"
       echo "2  Update Apps Including likely breaking major changes"
