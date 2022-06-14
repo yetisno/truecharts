@@ -13,7 +13,7 @@ export -f listBackups
 deleteBackup(){
 echo -e "${BWhite}Backup Deletion Tool${Color_Off}"
 clear -x && echo "pulling all restore points.."
-list_delete_backups=$(cli -c 'app kubernetes list_delete_backups' | grep -v system-update | sort -t '_' -Vr -k2,7 | tr -d " \t\r"  | awk -F '|'  '{print $2}' | nl | column -t)
+list_delete_backups=$(cli -c 'app kubernetes list_backups' | grep -v system-update | sort -t '_' -Vr -k2,7 | tr -d " \t\r"  | awk -F '|'  '{print $2}' | nl | column -t)
 clear -x
 # shellcheck disable=SC2015
 [[ -z "$list_delete_backups" ]] && echo -e "${IRed}No restore points available${Color_Off}" && exit || { title; echo -e "Choose a restore point to delete\nThese may be out of order if they are not TrueTool backups" ;  }
@@ -42,12 +42,12 @@ echo -e "\nNumber of backups was set to $number_of_backups"
 date=$(date '+%Y_%m_%d_%H_%M_%S')
 [[ "$verbose" == "true" ]] && cli -c 'app kubernetes backup_chart_releases backup_name=''"'TrueTool_"$date"'"'
 [[ -z "$verbose" ]] && echo -e "\nNew Backup Name:" && cli -c 'app kubernetes backup_chart_releases backup_name=''"'TrueTool_"$date"'"' | tail -n 1
-mapfile -t list_create_backups < <(cli -c 'app kubernetes list_create_backups' | grep 'HeavyScript\|TrueTool_' | sort -t '_' -Vr -k2,7 | awk -F '|'  '{print $2}'| tr -d " \t\r")
+mapfile -t list_create_backups < <(cli -c 'app kubernetes list_backups' | grep 'HeavyScript\|TrueTool_' | sort -t '_' -Vr -k2,7 | awk -F '|'  '{print $2}'| tr -d " \t\r")
 # shellcheck disable=SC2309
 if [[  ${#list_create_backups[@]}  -gt  "number_of_backups" ]]; then
     echo -e "\nDeleting the oldest backup(s) for exceeding limit:"
     overflow=$(( ${#list_create_backups[@]} - "$number_of_backups" ))
-    mapfile -t list_overflow < <(cli -c 'app kubernetes list_create_backups' | grep "TrueTool_"  | sort -t '_' -V -k2,7 | awk -F '|'  '{print $2}'| tr -d " \t\r" | head -n "$overflow")
+    mapfile -t list_overflow < <(cli -c 'app kubernetes list_backups' | grep "TrueTool_"  | sort -t '_' -V -k2,7 | awk -F '|'  '{print $2}'| tr -d " \t\r" | head -n "$overflow")
     for i in "${list_overflow[@]}"
     do
         cli -c 'app kubernetes delete_backup backup_name=''"'"$i"'"' &> /dev/null || echo "${IRed}FAILED${Color_Off} to delete $i"
@@ -61,7 +61,7 @@ export -f backup
 restore(){
 echo -e "${BWhite}Backup Restoration Tool${Color_Off}"
 clear -x && echo "pulling restore points.."
-list_restore_backups=$(cli -c 'app kubernetes list_restore_backups' | grep "TrueTool_" | sort -t '_' -Vr -k2,7 | tr -d " \t\r"  | awk -F '|'  '{print $2}' | nl | column -t)
+list_restore_backups=$(cli -c 'app kubernetes list_backups' | grep "TrueTool_" | sort -t '_' -Vr -k2,7 | tr -d " \t\r"  | awk -F '|'  '{print $2}' | nl | column -t)
 clear -x
 # shellcheck disable=SC2015
 [[ -z "$list_restore_backups" ]] && echo "No TrueTool restore points available" && exit || { title; echo "Choose a restore point" ;  }
