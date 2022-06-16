@@ -86,6 +86,7 @@ TrueTool updates itself automatically.
 
 <br >
 
+
 ## Creating a Cron Job
 
 1. TrueNAS SCALE GUI
@@ -97,7 +98,7 @@ TrueTool updates itself automatically.
 | Name                       | Value                                                                                                                 | Reason                                                                                                                                                                                             |
 |------------------------    |-------------------------------------------------------------------------------------------------------------------    |------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------    |
 | `Description`              | TrueTool Update apps                                                                                  | This is up to you, put whatever you think is a good description in here                                                                                                                            |
-| `Command`                  | `bash /PATH/TO/truetool_DIRECTORY/truetool.sh --no-color -b 14 -sup`     | This is the command you will be running on your schedule, example:  `bash /mnt/speed/scripts/truetool/truetool.sh -b 14 -rsup`     |
+| `Command`                  | `bash /PATH/TO/truetool_DIRECTORY/truetool.sh --no-color -b 14 -sup`     | This is the command you will be running on your schedule, example:  `bash /mnt/speed/scripts/truetool/truetool.sh -b 14 -sup`     |
 | `Run As User`              | `root`                                                                                                                | Running the script as `root` is REQUIRED. You cannot access all of the kubernetes functions without this user.                                                                                     |
 | `Schedule`                 | Up to you, example: `0400`                                                                              | Again up to you                                                                                                                                                                                    |
 | `Hide Standard Output`     | `False` or Unticked                                                                                                   | It's best to keep an eye on updates and enable this to recieve email reports                                                                                                               |
