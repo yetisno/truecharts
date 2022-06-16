@@ -14,54 +14,55 @@ A easy tool for frequently used TrueNAS SCALE CLI utilities.
 
 ## Synopsis
 
-TrueTool is a commandline tool, designed to enable some features of TrueNAS SCALE that are either not-enabled by default or not-available in the Web-GUI.
+TrueTool is a command line tool, designed to enable some features of TrueNAS SCALE that are either not-enabled by default or not-available in the Web-GUI.
 It also offers a few handy shortcuts for commonly required chores, like: Enabling Apt or Helm
 
 ## Arguments
 
-| Flag                | Example                    | Parameter     | Description                                                                                                                                                                                                                               |
-|-----------------    |------------------------    |-----------    |---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------    |
-| --delete-backup     | --delete-backup            | None          | Opens a menu to delete backups<br>_Useful if you need to delete old system backups or backups from other scripts_                                                                                                                         |
-| --restore           | --restore                  | None          | Restore TrueTool specific `ix-applications dataset` snapshot                                                                                                                                                                           |
-| --mount             | --mount                    | None          | Initiates mounting feature<br>Choose between unmounting and mounting PVC data                                                                                                                                                             |
-| --dns               | --dns                      | None          | list all of your applications DNS names and their web ports
-| --list-backups       | --list-backups             | None          | Prints a list of backups available
-| --helm-enable       | --helm-enable              | None          | Enables Helm command access on SCALE
-| --apt-enable         | --apt-enable              | None          | Enables Apt command access on SCALE
-| --no-color          | --no-color                 | None          | Disables showing colors in terminal output, usefull for SCALE Email output
-| -U                  | -U                         | None          | Update applications, ignoring major version changes                                                                                                                                                                                       |
-| -u                  | -u                         | None          | Update applications, do NOT update if there was a major version change                                                                                                                                                                    |
-| -b                  | -b 14                      | Integer       | Backup `ix-appliactions` dataset<br>_Creates backups up to the number you've chosen_                                                                                                                                                      |
-| -i                  | -i nextcloud -i sonarr     | String        | Applications listed will be ignored during updating<br>_List one application after another as shown in the example_                                                                                                                       |
-| -v                  | -v                         | None          | Verbose Output<br>_Look at the bottom of this page for an example_                                                                                                                                                                        |
-| -t                  | -t 150                     | Integer       | Set a custom timeout to be used with either:<br>`-m` <br>_Time the script will wait for application to be "STOPPED"_<br>or<br>`-(u\|U)` <br>_Time the script will wait for application to be either "STOPPED" or "ACTIVE"_                |
-| -s                  | -s                         | None          | Sync Catalogs prior to updating                                                                                                                                                                                                           |
-| -p                  | -p                         | None          | Prune old/unused docker images                                                                                                                                                                                                            |
-
+| Flag            | Example                | Parameter | Description                                                                                                                                                                                                                |
+| --------------- | ---------------------- | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| --delete-backup | --delete-backup        | None      | Opens a menu to delete backups<br>_Useful if you need to delete old system backups or backups from other scripts_                                                                                                          |
+| --restore       | --restore              | None      | Restore TrueTool specific `ix-applications dataset` snapshot                                                                                                                                                               |
+| --mount         | --mount                | None      | Initiates mounting feature<br>Choose between unmounting and mounting PVC data                                                                                                                                              |
+| --dns           | --dns                  | None      | list all of your applications DNS names and their web ports                                                                                                                                                                |
+| --list-backups  | --list-backups         | None      | Prints a list of backups available                                                                                                                                                                                         |
+| --helm-enable   | --helm-enable          | None      | Enables Helm command access on SCALE                                                                                                                                                                                       |
+| --apt-enable    | --apt-enable           | None      | Enables Apt command access on SCALE                                                                                                                                                                                        |
+| --no-color      | --no-color             | None      | Disables showing colors in terminal output, usefull for SCALE Email output                                                                                                                                                 |
+| -U              | -U                     | None      | Update applications, ignoring major version changes                                                                                                                                                                        |
+| -u              | -u                     | None      | Update applications, do NOT update if there was a major version change                                                                                                                                                     |
+| -b              | -b 14                  | Integer   | Backup `ix-appliactions` dataset<br>_Creates backups up to the number you've chosen_                                                                                                                                       |
+| -i              | -i nextcloud -i sonarr | String    | Applications listed will be ignored during updating<br>_List one application after another as shown in the example_                                                                                                        |
+| -v              | -v                     | None      | Verbose Output<br>_Look at the bottom of this page for an example_                                                                                                                                                         |
+| -t              | -t 150                 | Integer   | Set a custom timeout to be used with either:<br>`-m` <br>_Time the script will wait for application to be "STOPPED"_<br>or<br>`-(u\|U)` <br>_Time the script will wait for application to be either "STOPPED" or "ACTIVE"_ |
+| -s              | -s                     | None      | Sync Catalogs prior to updating                                                                                                                                                                                            |
+| -p              | -p                     | None      | Prune old/unused docker images                                                                                                                                                                                             |
 
 <br>
 <br>
-
 
 ## How to Install
 
 ### Create a Scripts Dataset
 
-In this example we created a `scripts` dataset on the Truenas SCALE system, feel free to use another folder.
+In this example we created a `scripts` dataset on the TrueNAS SCALE system, feel free to use another folder.
 
 ### Open a Terminal
 
 **Change Directory to your scripts folder**
+
 ```
 cd /mnt/pool/scripts
 ```
 
 **Git Clone truetool**
+
 ```
 git clone https://github.com/truecharts/truetool.git
 ```
 
 **Change Directory to truetool folder**
+
 ```
 cd truetool
 ```
@@ -76,11 +77,12 @@ TrueTool updates itself automatically.
 
 <br >
 
-### Update with your Cron Job
+### Update apps with on a schedule
 
-Here, we will update the script prior to running it, incase there is a bugfix, or any new additions to the script
+Here, we will update the apps using a cronjob
 
 **Cron Job Command**
+
 ```
 bash /mnt/pool/scripts/truetool/truetool.sh -b 14 -sup
 ```
@@ -96,34 +98,31 @@ bash /mnt/pool/scripts/truetool/truetool.sh -b 14 -sup
 4. Cron Jobs
    1. Click Add
 
-| Name                       | Value                                                                                                                 | Reason                                                                                                                                                                                             |
-|------------------------    |-------------------------------------------------------------------------------------------------------------------    |------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------    |
-| `Description`              | TrueTool Update apps                                                                                  | This is up to you, put whatever you think is a good description in here                                                                                                                            |
-| `Command`                  | `bash /PATH/TO/truetool_DIRECTORY/truetool.sh --no-color -b 14 -sup`     | This is the command you will be running on your schedule, example:  `bash /mnt/speed/scripts/truetool/truetool.sh -b 14 -sup`     |
-| `Run As User`              | `root`                                                                                                                | Running the script as `root` is REQUIRED. You cannot access all of the kubernetes functions without this user.                                                                                     |
-| `Schedule`                 | Up to you, example: `0400`                                                                              | Again up to you                                                                                                                                                                                    |
-| `Hide Standard Output`     | `False` or Unticked                                                                                                   | It's best to keep an eye on updates and enable this to recieve email reports                                                                                                               |
-| `Hide Standard Error`      | `False`  or Unticked                                                                                                  | We definately want to see what errors occured during updating                                                                                                                                                            |
-| `Enabled`                  | `True` or Ticked                                                                                                      | This will Enable the script to run on your schedule                                                                                                                                               |
-
-
+| Name                   | Value                                                                | Reason                                                                                                                       |
+| ---------------------- | -------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| `Description`          | TrueTool Update apps                                                 | This is up to you, put whatever you think is a good description in here                                                      |
+| `Command`              | `bash /PATH/TO/truetool_DIRECTORY/truetool.sh --no-color -b 14 -sup` | This is the command you will be running on your schedule, example: `bash /mnt/speed/scripts/truetool/truetool.sh -b 14 -sup` |
+| `Run As User`          | `root`                                                               | Running the script as `root` is REQUIRED. You cannot access all of the kubernetes functions without this user.               |
+| `Schedule`             | Up to you, example: `0400`                                           | Again up to you                                                                                                              |
+| `Hide Standard Output` | `False` or Un-ticked                                                  | It's best to keep an eye on updates and enable this to receive email reports                                                 |
+| `Hide Standard Error`  | `False` or Un-ticked                                                  | We definitely want to see what errors occurred during updating                                                               |
+| `Enabled`              | `True` or Ticked                                                     | This will Enable the script to run on your schedule                                                                          |
 
 <br >
 <br >
 
 ### Additional Information
 
-
 #### TrueTool vs HeavyScript
 
 TrueTool and HeavyScript are based, in essence, based on the the original (python based) TrueUpdate and TrueTool.
 Then Support-Manager for TrueCharts, HeavyBullets8, ported this to Bash and started adding some additional logic and options for tasks we frequently needed our users to do, such as mounting PVC's.
 
-After a month or so, the TrueCharts Team officially started refactoring this expanded bash-port. Due to personal reasons, HeavyBullets by then decided to seperate from TrueCharts after merging the TrueCharts refactor into his own work. The beauty of OpenSource.
+After a month or so, the TrueCharts Team officially started refactoring this expanded bash-port. Due to personal reasons, HeavyBullets by then decided to separate from TrueCharts after merging the TrueCharts refactor into his own work. The beauty of OpenSource.
 
 From this point onwards the HeavyScript and TrueTool diverged a bit.
-We internally review changes within our staff team, to verify we somewhat stick to best-practices. This means, in some cases, we decided not to port certain features from HeavyScript and did decide to add features we think are usefull and safe.
+We internally review changes within our staff team, to verify we somewhat stick to best-practices. This means, in some cases, we decided not to port certain features from HeavyScript and did decide to add features we think are useful and safe.
 But this also means we can give guarantees TrueTool works optimally with our Catalog of TrueNAS SCALE Apps, as well as official Apps.
 
 Users from HeavyScript can safely start using TrueTool, as we've made precautions to ensure the backups take over smoothly.
-We, however, do *not* advice using HeavyScript with TrueCharts Apps. Not because it's a bad App, but because we offer an alternative that is validated by our Staff.
+We, however, do _not_ advice using HeavyScript with TrueCharts Apps. Not because it's a bad App, but because we offer an alternative that is validated by our Staff.
