@@ -79,7 +79,7 @@ TrueTool updates itself automatically.
 
 ### Update apps with on a schedule
 
-Here, we will update the apps using a cronjob
+You can update your apps automatically using a cronjob
 
 **Cron Job Command**
 
