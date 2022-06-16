@@ -126,7 +126,7 @@ title
 
 [[ "$enableUpdate" == "true" ]] && updater "$@"
 
-#If no argument is passed, set flag to show menu
+# Show menu if menu flag is set
 if [[ "$no_args" == "true"  ]]; then
   no_args
 fi

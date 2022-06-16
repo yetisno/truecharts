@@ -33,19 +33,30 @@ It also offers a few handy shortcuts for commonly required chores, like: Enablin
 | -u              | -u                     | None      | Update applications, do NOT update if there was a major version change                                                                                                                                                     |
 | -b              | -b 14                  | Integer   | Backup `ix-appliactions` dataset<br>_Creates backups up to the number you've chosen_                                                                                                                                       |
 | -i              | -i nextcloud -i sonarr | String    | Applications listed will be ignored during updating<br>_List one application after another as shown in the example_                                                                                                        |
-| -v              | -v                     | None      | Verbose Output<br>_Look at the bottom of this page for an example_                                                                                                                                                         |
+| -v              | -v                     | None      | Verbose Output<br>                                                                                                                                                       |
 | -t              | -t 150                 | Integer   | Set a custom timeout to be used with either:<br>`-m` <br>_Time the script will wait for application to be "STOPPED"_<br>or<br>`-(u\|U)` <br>_Time the script will wait for application to be either "STOPPED" or "ACTIVE"_ |
 | -s              | -s                     | None      | Sync Catalogs prior to updating                                                                                                                                                                                            |
 | -p              | -p                     | None      | Prune old/unused docker images                                                                                                                                                                                             |
+
 
 <br>
 <br>
 
 ## How to Install
 
-### Create a Scripts Dataset
+### Choose a folder
+
+It's important to save the script in a folder that is persistent across TrueNAS System Updates.
+This saves you from reinstalling or experiencing an accidental lack-of-backups after an update.
+
+##### New dataset
 
 In this example we created a `scripts` dataset on the TrueNAS SCALE system, feel free to use another folder.
+
+##### Root folder
+
+The `/root` folder houses files for the root user.
+It's also persistent across updates and hence can be safely used for storing the script.
 
 ### Open a Terminal
 
@@ -77,18 +88,6 @@ TrueTool updates itself automatically.
 
 <br >
 
-### Update apps with on a schedule
-
-You can update your apps automatically using a cronjob
-
-**Cron Job Command**
-
-```
-bash /mnt/pool/scripts/truetool/truetool.sh -b 14 -sup
-```
-
-<br >
-<br >
 
 ## Creating a Cron Job
 
