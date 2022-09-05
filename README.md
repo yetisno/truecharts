@@ -2,7 +2,7 @@
 
 A easy tool for frequently used TrueNAS SCALE CLI utilities.
 
-Please before using this tool, [read this note](https://truecharts.org/docs/manual/SCALE%20Apps/Quick-Start%20Guides/Important-MUST-READ)
+Please before using this tool, [read this note](https://truecharts.org/docs/manual/SCALE%20Apps/Important-MUST-READ)
 
 ## Table of contents:
 * [Synopsis](#synopsis)
