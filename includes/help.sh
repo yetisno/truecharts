@@ -11,7 +11,7 @@ echo "--list-backups   | Prints a list of backups available"
 echo "--helm-enable    | Enables Helm command access on SCALE"
 echo "--apt-enable     | Enables Apt command access on SCALE"
 echo "--kubeapi-enable | Enables external access to Kuberntes API port"
-echo "--dns            | list all of your applications DNS names and their web ports"
+echo "--dns            | List all of your applications DNS names and their web ports"
 echo
 echo -e "${BWhite}Update Options${Color_Off}"
 echo "-U | Update all applications, ignores versions"
