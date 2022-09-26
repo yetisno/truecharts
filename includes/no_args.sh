@@ -12,6 +12,7 @@ no_args(){
   echo "7  Enable Helm Commands"
   echo "8  Enable Apt and Apt-Get Commands"
   echo "9  Update All Apps"
+  echo "10 Enable external access to Kuberntes API port"
   read -rt 600 -p "Please select an option by number: " selection
 
   case $selection in
@@ -58,6 +59,9 @@ no_args(){
       else
         echo "INVALID ENTRY" && exit 1
       fi
+      ;;
+    10)
+      kubeapiEnable="true"
       ;;
     *)
       echo "Unknown option" && exit 1

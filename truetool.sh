@@ -68,6 +68,9 @@ else
             apt-enable)
                   aptEnable="true"
                   ;;
+            kubeapi-enable)
+                  kubeapiEnable="true"
+                  ;;
             no-color)
                   noColor
                   ;;
@@ -158,7 +161,8 @@ fi
 [[ "$help" == "true" ]] && help
 [[ "$helmEnable" == "true" ]] && helmEnable
 [[ "$aptEnable" == "true" ]] && aptEnable
-[[ "$aptEnable" == "true" || "$helmEnable" == "true" ]] && exit
+[[ "$kubeapiEnable" == "true" ]] && kubeapiEnable
+[[ "$aptEnable" == "true" || "$helmEnable" == "true" || "$kubeapiEnable" == "true" ]] && exit
 [[ "$listBackups" == "true" ]] && listBackups && exit
 [[ "$deleteBackup" == "true" ]] && deleteBackup && exit
 [[ "$dns" == "true" ]] && dns && exit
