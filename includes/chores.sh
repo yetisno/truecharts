@@ -14,7 +14,7 @@ export -f aptEnable
 
 kubeapiEnable(){
 local -r comment='iX Custom Rule to drop connection requests to k8s cluster from external sources'
-echo -e "${BWhite}Enabling Apt-Commands${Color_Off}"
+echo -e "${BWhite}Enabling Kubernetes API${Color_Off}"
 if iptables -t filter -L INPUT 2> /dev/null | grep -q "${comment}" ; then
   iptables -D INPUT -p tcp -m tcp --dport 6443 -m comment --comment "${comment}" -j DROP && echo -e "${IGreen}Kubernetes API enabled${Color_Off}"|| echo -e "${IRed}Kubernetes API Enable FAILED${Color_Off}"
 else
