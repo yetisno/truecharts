@@ -72,7 +72,9 @@ echo -e "\nWARNING:\nThis is NOT guranteed to work\nThis is ONLY supposed to be 
 # shellcheck disable=SC2015
 echo -e "\n\nYou have chosen:\n$restore_point\n\nWould you like to continue?"  && echo -e "1  Yes\n2  No" && read -rt 120 -p "Please type a number: " yesno || { echo "${IRed}FAILED${Color_Off}"; exit; }
 if [[ $yesno == "1" ]]; then
-    echo -e "\nStarting Backup, this will take a ${BWhite}LONG${Color_Off} time." && cli -c 'app kubernetes restore_backup backup_name=''"'"$restore_point"'"' || echo "Restore ${IRed}FAILED${Color_Off}"
+    echo -e "\nStarting Restore, this will take a ${BWhite}LONG${Color_Off} time."
+    zfs set mountpoint=legacy "$(zfs list -t filesystem -r "$(cli -c 'app kubernetes config' | grep -E "pool\s\|" | awk -F '|' '{print $3}' | tr -d " \t\n\r")" -o name -H | grep "volumes/pvc")" && echo "Fixing PVC mountpoints..." || echo "Fixing PVC mountpoints Failed... Continuing with restore..."
+    cli -c 'app kubernetes restore_backup backup_name=''"'"$restore_point"'"' || echo "Restore ${IRed}FAILED${Color_Off}"
 elif [[ $yesno == "2" ]]; then
     echo "You've chosen NO, killing script. Good luck."
 else
