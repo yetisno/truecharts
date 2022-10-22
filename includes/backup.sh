@@ -73,7 +73,12 @@ echo -e "\nWARNING:\nThis is NOT guranteed to work\nThis is ONLY supposed to be 
 echo -e "\n\nYou have chosen:\n$restore_point\n\nWould you like to continue?"  && echo -e "1  Yes\n2  No" && read -rt 120 -p "Please type a number: " yesno || { echo "${IRed}FAILED${Color_Off}"; exit; }
 if [[ $yesno == "1" ]]; then
     echo -e "\nStarting Restore, this will take a ${BWhite}LONG${Color_Off} time."
-    zfs set mountpoint=legacy "$(zfs list -t filesystem -r "$(cli -c 'app kubernetes config' | grep -E "pool\s\|" | awk -F '|' '{print $3}' | tr -d " \t\n\r")" -o name -H | grep "volumes/pvc")" && echo "Fixing PVC mountpoints..." || echo "Fixing PVC mountpoints Failed... Continuing with restore..."
+    echo "Correcting PVC mountpoints..."
+    for pvc in $(zfs list -t filesystem -r "$(cli -c 'app kubernetes config' | grep -E "pool\s\|" | awk -F '|' '{print $3}' | tr -d " \t\n\r")" -o name -H | grep "/ix-applications/" | grep "volumes/pvc")
+    do
+    zfs set mountpoint=legacy "${pvc}" || echo "Fixing PVC mountpoints Failed for ${pvc}... Continuing..."
+    done
+    echo "Triggering restore process..."
     cli -c 'app kubernetes restore_backup backup_name=''"'"$restore_point"'"' || echo "Restore ${IRed}FAILED${Color_Off}"
 elif [[ $yesno == "2" ]]; then
     echo "You've chosen NO, killing script. Good luck."
