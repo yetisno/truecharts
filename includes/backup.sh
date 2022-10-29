@@ -73,11 +73,18 @@ echo -e "\nWARNING:\nThis is NOT guranteed to work\nThis is ONLY supposed to be 
 echo -e "\n\nYou have chosen:\n$restore_point\n\nWould you like to continue?"  && echo -e "1  Yes\n2  No" && read -rt 120 -p "Please type a number: " yesno || { echo "${IRed}FAILED${Color_Off}"; exit; }
 if [[ $yesno == "1" ]]; then
     echo -e "\nStarting Restore, this will take a ${BWhite}LONG${Color_Off} time."
+    pool=$(cli -c 'app kubernetes config' | grep -E "pool\s\|" | awk -F '|' '{print $3}' | tr -d " \t\n\r")
     echo "Correcting PVC mountpoints..."
-    for pvc in $(zfs list -t filesystem -r "$(cli -c 'app kubernetes config' | grep -E "pool\s\|" | awk -F '|' '{print $3}' | tr -d " \t\n\r")" -o name -H | grep "/ix-applications/" | grep "volumes/pvc")
+    for pvc in $(zfs list -t filesystem -r "$pool"/ix-applications -o name -H  | grep "/ix-applications/" | grep "volumes/pvc")
     do
     zfs set mountpoint=legacy "${pvc}" || echo "Fixing PVC mountpoints Failed for ${pvc}... Continuing..."
     done
+    # Ensure readonly is turned off
+    if ! zfs set readonly=off "$pool"/ix-applications;then
+        echo -e "Error: Failed to set ZFS ReadOnly to \"off\""
+        echo -e "After the restore, attempt to run the following command manually:"
+        echo "zfs set readonly=off $pool/ix-applications"
+    fi
     echo "Triggering restore process..."
     cli -c 'app kubernetes restore_backup backup_name=''"'"$restore_point"'"' || echo "Restore ${IRed}FAILED${Color_Off}"
 elif [[ $yesno == "2" ]]; then
