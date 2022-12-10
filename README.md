@@ -1,10 +1,11 @@
 # truetool
 
-A easy tool for frequently used TrueNAS SCALE CLI utilities.
+An easy tool for frequently used TrueNAS SCALE CLI utilities.
 
 Please before using this tool, [read this note](https://truecharts.org/docs/manual/SCALE%20Apps/Important-MUST-READ)
 
 ## Table of contents:
+
 * [Synopsis](#synopsis)
 * [Arguments](#arguments)
 * [How to Install](#how-to-install)
@@ -117,7 +118,7 @@ TrueTool updates itself automatically.
 
 #### TrueTool vs HeavyScript
 
-TrueTool and HeavyScript are based, in essence, based on the the original (python based) TrueUpdate and TrueTool.
+TrueTool and HeavyScript are based, in essence, based on the original (python based) TrueUpdate and TrueTool.
 Then Support-Manager for TrueCharts, HeavyBullets8, ported this to Bash and started adding some additional logic and options for tasks we frequently needed our users to do, such as mounting PVC's.
 
 After a month or so, the TrueCharts Team officially started refactoring this expanded bash-port. Due to personal reasons, HeavyBullets by then decided to separate from TrueCharts after merging the TrueCharts refactor into his own work. The beauty of OpenSource.
@@ -127,4 +128,4 @@ We internally review changes within our staff team, to verify we somewhat stick 
 But this also means we can give guarantees TrueTool works optimally with our Catalog of TrueNAS SCALE Apps, as well as official Apps.
 
 Users from HeavyScript can safely start using TrueTool, as we've made precautions to ensure the backups take over smoothly.
-We, however, do _not_ advice using HeavyScript with TrueCharts Apps. Not because it's a bad App, but because we offer an alternative that is validated by our Staff.
+We, however, do _not_ advise using HeavyScript with TrueCharts Apps. Not because it's a bad App, but because we offer an alternative that is validated by our Staff.
