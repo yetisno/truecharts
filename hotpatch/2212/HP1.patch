@@ -26,7 +26,7 @@ index c7180147a5f..941de79da45 100644
 +++ plugins/chart_releases_linux/resources.py
 @@ -158,13 +158,13 @@ async def retrieve_pv_pvc_mapping_internal(self, chart_release):
          }
- 
+
          for pv in chart_release['resources']['persistent_volumes']:
 -            claim_name = pv['spec'].get('claim_ref', {}).get('name')
 +            claim_name = pv['spec'].get('claimRef', {}).get('name')
@@ -51,7 +51,7 @@ index c7180147a5f..941de79da45 100644
 +                    'zv_details': zfs_volumes[csi_spec['volumeHandle']],
                  }
          return mapping
- 
+
 @@ -247,11 +247,11 @@ async def get_workload_storage_details(self):
          # because of chart release reclaim policy being retain
          for pv in await self.middleware.call(
@@ -81,7 +81,7 @@ index 117dab3a79c..e9525150278 100644
 -                for owner_reference in filter(lambda o: o.get('uid'), r['metadata']['owner_references'] or []):
 +                for owner_reference in filter(lambda o: o.get('uid'), r['metadata']['ownerReferences'] or []):
                      mapping[key][owner_reference['uid']][r['metadata']['uid']] = r
- 
+
          pod_mapping = defaultdict(list)
 diff --git plugins/kubernetes_linux/restore.py plugins/kubernetes_linux/restore.py
 index 4897e3f8b7a..ec13a332b6e 100644
@@ -90,7 +90,7 @@ index 4897e3f8b7a..ec13a332b6e 100644
 @@ -218,7 +218,11 @@ def restore_backup(self, job, backup_name, options):
                      failed_pv_restores.append(f'Unable to create ZFS Volume for {pvc!r} PVC: {e}')
                      continue
- 
+
 +                # We need to safely access claim_ref vollume attribute keys as with k8s client api re-write
 +                # camel casing which was done by kubernetes asyncio package is not happening anymore
                  pv_spec = pv['pv_details']['spec']
