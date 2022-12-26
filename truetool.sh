@@ -131,13 +131,13 @@ title
 
 [[ "$enableUpdate" == "true" ]] && updater "$@"
 
+## Always check if a hotpatch needs to be applied
+hotpatch
+
 # Show menu if menu flag is set
 if [[ "$no_args" == "true"  ]]; then
   no_args
 fi
-
-## Always check if a hotpatch needs to be applied
-hotpatch
 
 ## Exit if incompatable functions are called
 [[ "$update_all_apps" == "true" && "$update_apps" == "true" ]] && echo -e "-U and -u cannot BOTH be called" && exit
