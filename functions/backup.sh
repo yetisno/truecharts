@@ -98,6 +98,7 @@ do
     read -rt 120 -p "Delete more backups? (y/N): " yesno || { echo -e "\nFailed to make a selection in time" ; exit; }
     case $yesno in
         [Yy] | [Yy][Ee][Ss])
+            deleteBackup
             break
             ;;
         [Nn] | [Nn][Oo])

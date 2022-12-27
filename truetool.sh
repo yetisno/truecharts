@@ -24,6 +24,8 @@ source includes/no_args.sh
 source includes/title.sh
 # shellcheck source=includes/update_self.sh
 source includes/update_self.sh
+# shellcheck source=includes/backup.sh
+source includes/backup.sh
 
 # Libraries loaded from Heavyscript
 # shellcheck source=functions/dns.sh
