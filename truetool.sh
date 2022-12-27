@@ -76,6 +76,9 @@ else
             kubeapi-enable)
                   kubeapiEnable="true"
                   ;;
+            no-color)
+                  noColor
+                  ;;
             *)
                   echo -e "Invalid Option \"--$OPTARG\"\n" && help
                   exit
