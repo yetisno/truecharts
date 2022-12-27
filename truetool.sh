@@ -14,8 +14,6 @@ cd "${SCRIPT_DIR}" || echo -e "ERROR: Something went wrong accessing the script 
 # Includes
 # shellcheck source=includes/chores.sh
 source includes/chores.sh
-# shellcheck source=includes/colors.sh
-source includes/colors.sh
 # shellcheck source=includes/help.sh
 source includes/help.sh
 # shellcheck source=includes/help.sh
@@ -77,9 +75,6 @@ else
                   ;;
             kubeapi-enable)
                   kubeapiEnable="true"
-                  ;;
-            no-color)
-                  noColor
                   ;;
             *)
                   echo -e "Invalid Option \"--$OPTARG\"\n" && help
