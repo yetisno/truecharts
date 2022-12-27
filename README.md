@@ -1,12 +1,13 @@
-# heavy_script
+# truetool
 
-## Website 
+An easy tool for frequently used TrueNAS SCALE CLI utilities.
 
-[HeavySetup - Further Explanation](https://heavysetup.info/scripts/heavyscript/about/)
+Please before using this tool, [read this note](https://truecharts.org/manual/guides/Important-MUST-READ)
 
 ## Table of contents:
-* [Update Arguments](#update-arguments)
-* [Other Utilities](#other-utilities)
+
+* [Synopsis](#synopsis)
+* [Arguments](#arguments)
 * [How to Install](#how-to-install)
 * [How to Update](#how-to-update)
 * [Creating a Cron Job](#creating-a-cron-job)
@@ -14,171 +15,83 @@
 
 <br>
 
-## The Menu
+## Synopsis
 
-![image](https://user-images.githubusercontent.com/20793231/185020236-7b389499-8081-407d-b653-10dffd70de8c.png)
-> Access this with `bash heavy_script.sh`
+TrueTool is a command line tool, designed to enable some features of TrueNAS SCALE that are either not-enabled by default or not-available in the Web-GUI.
+It also offers a few handy shortcuts for commonly required chores, like: Enabling Apt or Helm
 
-<br >
-<br >
+## Arguments
 
-## Update Arguments
-| Flag          | Example                | Parameter        | Description                                                                                                                                                                |
-|---------------|------------------------|------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| -U            | -U <br>-U 5            | Optional Integer | Update applications, ignoring major version changes<br>_Optionally, you can supply a number after the argument to update multiple applications at once_                    |
-| -u            | -u<br>-u 5             | Optional Integer | Update applications, do NOT update if there was a major version change<br>_Optionally, you can supply a number after the argument to update multiple applications at once_ |
-| -b            | -b 14                  | Integer          | Snapshot ix-applications dataset<br>_Creates backups UP TO the number you've chosen_                                                                                       |
-| -i            | -i nextcloud -i sonarr | String           | Applications listed will be ignored during updating<br>_List one application after another as shown in the example_                                                        |
-| -r            | -r                     |                  | Monitors applications after they update<br>If the app does not become "ACTIVE" after the timeout, rollback the application.                                                |
-| -v            | -v                     |                  | Verbose Output<br>_Look at the bottom of this page for an example_                                                                                                         |
-| -S            | -S                     |                  | Shutdown the application prior to updating it                                                                                                                              |
-| -t            | -t 400                 | Integer          | Time in seconds that HeavyScript will wait for an application to no longer be deploying before declaring failure<br>Default: 500                                           |
-| -s            | -s                     |                  | Sync Catalogs prior to updating                                                                                                                                            |
-| -p            | -p                     |                  | Prune unused docker images                                                                                                                                                 |
-| --ignore-img  | --ignore-img           |                  | Ignore container image updates                                                                                                                                             |
-| --self-update | --self-update          |                  | Updates HeavyScript prior to running any other commands                                                                                                                    |
+| Flag            | Example                | Parameter | Description                                                                                                                                                                                                                |
+| --------------- | ---------------------- | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| --delete-backup | --delete-backup        | None      | Opens a menu to delete backups<br>_Useful if you need to delete old system backups or backups from other scripts_                                                                                                          |
+| --restore       | --restore              | None      | Restore TrueTool specific `ix-applications dataset` snapshot                                                                                                                                                               |
+| --mount         | --mount                | None      | Initiates mounting feature<br>Choose between unmounting and mounting PVC data                                                                                                                                              |
+| --dns           | --dns                  | None      | list all of your applications DNS names and their web ports                                                                                                                                                                |
+| --list-backups  | --list-backups         | None      | Prints a list of backups available                                                                                                                                                                                         |
+| --helm-enable   | --helm-enable          | None      | Enables Helm command access on SCALE                                                                                                                                                                                       |
+| --kubeapi-enable   | --kubeapi-enable          | None      | Enables external access to Kuberntes API port                                                                                                                                                                               |
+| --apt-enable    | --apt-enable           | None      | Enables Apt command access on SCALE                                                                                                                                                                                        |
+| --no-color      | --no-color             | None      | Disables showing colors in terminal output, usefull for SCALE Email output                                                                                                                                                 |
+| -U              | -U                     | None      | Update applications, ignoring major version changes                                                                                                                                                                        |
+| -u              | -u                     | None      | Update applications, do NOT update if there was a major version change                                                                                                                                                     |
+| -b              | -b 14                  | Integer   | Backup `ix-applications` dataset<br>_Creates backups up to the number you've chosen_                                                                                                                                       |
+| -i              | -i nextcloud -i sonarr | String    | Applications listed will be ignored during updating<br>_List one application after another as shown in the example_                                                                                                        |
+| -v              | -v                     | None      | Verbose Output<br>                                                                                                                                                       |
+| -t              | -t 150                 | Integer   | Set a custom timeout to be used with either:<br>`-m` <br>_Time the script will wait for application to be "STOPPED"_<br>or<br>`-(u\|U)` <br>_Time the script will wait for application to be either "STOPPED" or "ACTIVE"_ |
+| -s              | -s                     | None      | Sync Catalogs prior to updating                                                                                                                                                                                            |
+| -p              | -p                     | None      | Prune old/unused docker images                                                                                                                                                                                             |
 
-
-### Example
-#### Cron Job  
-```
-bash heavy_script.sh --self-update -b 10 -i nextcloud -i sonarr -t 600 --ignore-img -rsp -u 5
-```
-
-> `-b` is set to 10. Up to 10 snapshots of your ix-applications dataset will be saved
-
-> `-i` is set to ignore __nextcloud__ and __sonarr__. These applications will be skipped if they have an update.
-
-> `-t` I set it to 600 seconds, this means the script will wait 600 seconds for the application to become ACTIVE before timing out and rolling back to the previous version since `-r` is used. 
-
-> `--ignore-img` Will not update the application if it is only a container image update
-
-> `-r` Will rollback applications if they fail to deploy within the timeout, after updating.
-
-> `-s` will just sync the repositories, ensuring you are downloading the latest updates.
-
-> `-p` Prune docker images.
-
-> `-u` update applications as long as the major version has absolutely no change, if it does have a change it will ask the user to update manually.
->> The `5` after the `-u` means up to 5 applications will be updating and monitored at one time
-
-> `--self-update` Will update the script prior to running anything else.
-
-<br >
-
-#### My Personal Cron Job
-```
-bash /mnt/speed/scripts/heavy_script/heavy_script.sh --self-update -b 10 -rsp -u 10
-```
-
-<br >
-<br>
-
-## Other Utilities
-> All of these can ALSO be accessed with the HeavyScript menu, that you can access simply by not providing an argument `bash heavy_script.sh`
-
-| Flag            | Description                                                                                  |
-|-----------------|----------------------------------------------------------------------------------------------|
-| --mount         | Initiates mounting feature, choose between unmounting and mounting PVC data                  |
-| --restore       | Opens a menu to restore a heavy_script backup that was taken on your ix-applications dataset |
-| --delete-backup | Opens a menu to delete backups on your system                                                |
-| --dns           | list all of your applications DNS names and their web ports                                  |
-| --cmd           | Open a shell for one of your applications                                                    |
-
-
-### Examples
-#### Mounting PVC Data
-
-```
-bash /mnt/tank/scripts/heavy_script.sh --mount
-```
-
-#### Restoring ix-applications dataset
-
-```
-bash /mnt/tank/scripts/heavy_script/heavy_script.sh --restore
-```
-
-#### Deleting Backups
-
-```
-bash /mnt/tank/scripts/heavy_script/heavy_script.sh --delete-backup
-```
-
-#### List All DNS Names
-
-```
-bash /mnt/tank/scripts/heavy_script/heavy_script.sh --dns
-```
-
-#### Open a Containers Shell
-
-```
-bash /mnt/speed/scripts/heavy_script/heavy_script.sh --cmd
-```
 
 <br>
 <br>
-
 
 ## How to Install
 
-### Create a Scripts Dataset
+### Choose a folder
 
-I created a `scripts` dataset on my Truenas SCALE system, this is where all my scripts will remain.
+It's important to save the script in a folder that is persistent across TrueNAS System Updates.
+This saves you from reinstalling or experiencing an accidental lack-of-backups after an update.
 
-### Open a Terminal 
+##### New dataset
+
+In this example we created a `scripts` dataset on the TrueNAS SCALE system, feel free to use another folder.
+
+##### Root folder
+
+The `/root` folder houses files for the root user.
+It's also persistent across updates and hence can be safely used for storing the script.
+
+### Open a Terminal
 
 **Change Directory to your scripts folder**
+
 ```
-cd /mnt/speed/scripts
+cd /mnt/pool/scripts
 ```
 
-**Git Clone Heavy_Script**
+**Git Clone truetool**
+
 ```
-git clone https://github.com/Heavybullets8/heavy_script.git
+git clone https://github.com/truecharts/truetool.git
 ```
 
-**Change Directory to Heavy_Script folder**
+**Change Directory to truetool folder**
+
 ```
-cd heavy_script
+cd truetool
 ```
 
-From here, you can just run Heavy_Script with `bash heavy_script.sh -ARGUMENTS`
-
-> Note: `chmod +x` is NOT required. Doing this will break the `git pull` (or self update) function. Just run the script with `bash heavy_script.sh`
+From here, you can just run truetool with `bash truetool.sh -ARGUMENTS`
 
 <br>
 
-## How to Update 
+## How to Update
 
-### Built-In Option (Recommended)
-
-```
-bash heavyscript.sh --self-update -b 10 -supr
-```
-> The important argument here is the `--self-update`, you can still use all of your same arguments with this option.
->> `--self-update` will place users on the latest tag, as well as showing the changelog when new releases come out. So this is the preferred method. Not using this method, will instead place the user on `main`, where the changes are tested, but not as rigerously as they are on the releases.
+TrueTool updates itself automatically.
 
 <br >
 
-### Manually
-
-#### Open a Terminal 
-
-**Change Directory to your heavy_script folder**
-```
-cd /mnt/speed/scripts/heavy_script
-```
-
-**git pull**
-```
-git pull
-```
-> This is not recommended because the changes to main are not tested as much as the changes that are pushed to releases are tested, think of this method of updating as being in development. 
-
-<br >
-<br >
 
 ## Creating a Cron Job
 
@@ -188,29 +101,31 @@ git pull
 4. Cron Jobs
    1. Click Add
 
-| Name                   	| Value                                                                                                             	| Reason                                                                                                                                                                                         	|
-|------------------------	|-------------------------------------------------------------------------------------------------------------------	|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------	|
-| `Description`          	| HeavyScript git pull and Update apps                                                                              	| This is up to you, put whatever you think is a good description in here                                                                                                                        	|
-| `Command`              	| `bash /PATH/TO/HEAVY_SCRIPT_DIRECTORY/heavy_script.sh --self-update -b 10 -rsp -u 10` 	| This is the command you will be running on your schedule  I personally use:  `bash /mnt/speed/scripts/heavy_script/heavy_script.sh --self-update -b 10 -rsp -u 10` 	|
-| `Run As User`          	| `root`                                                                                                            	| Running the script as `root` is REQUIRED. You cannot access all of the kubernetes functions without this user.                                                                                 	|
-| `Schedule`             	| Up to you, I run mine everyday at `0400`                                                                          	| Again up to you                                                                                                                                                                                	|
-| `Hide Standard Output` 	| `False` or Unticked                                                                                               	| I like to receive an email report of how the script ran, what apps updated etc.                                                                                                                	|
-| `Hide Standard Error`  	| `False`  or Unticked                                                                                              	| I want to see any errors that occur                                                                                                                                                            	|
-| `Enabled`              	| `True` or Ticked                                                                                                  	| This will Enable the script to run on your schedule                                                                                                                                            	|
-
-
+| Name                   | Value                                                                | Reason                                                                                                                       |
+| ---------------------- | -------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| `Description`          | TrueTool Update apps                                                 | This is up to you, put whatever you think is a good description in here                                                      |
+| `Command`              | `bash /PATH/TO/truetool_DIRECTORY/truetool.sh --no-color -b 14 -sup` | This is the command you will be running on your schedule, example: `bash /mnt/speed/scripts/truetool/truetool.sh -b 14 -sup` |
+| `Run As User`          | `root`                                                               | Running the script as `root` is REQUIRED. You cannot access all of the kubernetes functions without this user.               |
+| `Schedule`             | Up to you, example: `0400`                                           | Again up to you                                                                                                              |
+| `Hide Standard Output` | `False` or Un-ticked                                                  | It's best to keep an eye on updates and enable this to receive email reports                                                 |
+| `Hide Standard Error`  | `False` or Un-ticked                                                  | We definitely want to see what errors occurred during updating                                                               |
+| `Enabled`              | `True` or Ticked                                                     | This will Enable the script to run on your schedule                                                                          |
 
 <br >
 <br >
 
 ### Additional Information
 
-#### Verbose vs Non-Verbose 
--  Verbose used `bash heavy_script.sh -b 5 -Srupv`
-- Non-Verbose used `bash heavy_script.sh -b 5 -Srup`
+#### TrueTool vs HeavyScript
 
-| Verbose 	| Non-Verbose 	|
-|---------	|-------------	|
-|  ![image](https://user-images.githubusercontent.com/20793231/167971188-07f71d02-8da3-4e0c-b9a0-cd26e7f63613.png) |   ![image](https://user-images.githubusercontent.com/20793231/167972033-dc8d4ab4-4fb2-4c8a-b7dc-b9311ae55cf8.png) |
-       
+TrueTool and HeavyScript are based, in essence, based on the original (python based) TrueUpdate and TrueTool.
+Then Support-Manager for TrueCharts, HeavyBullets8, ported this to Bash and started adding some additional logic and options for tasks we frequently needed our users to do, such as mounting PVC's.
 
+After a month or so, the TrueCharts Team officially started refactoring this expanded bash-port. Due to personal reasons, HeavyBullets by then decided to separate from TrueCharts after merging the TrueCharts refactor into his own work. The beauty of OpenSource.
+
+From this point onwards the HeavyScript and TrueTool diverged a bit.
+We internally review changes within our staff team, to verify we somewhat stick to best-practices. This means, in some cases, we decided not to port certain features from HeavyScript and did decide to add features we think are useful and safe.
+But this also means we can give guarantees TrueTool works optimally with our Catalog of TrueNAS SCALE Apps, as well as official Apps.
+
+Users from HeavyScript can safely start using TrueTool, as we've made precautions to ensure the backups take over smoothly.
+We, however, do _not_ advise using HeavyScript with TrueCharts Apps. Not because it's a bad App, but because we offer an alternative that is validated by our Staff.
