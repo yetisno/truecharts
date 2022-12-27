@@ -179,7 +179,7 @@ fi
 [[ "$deleteBackup" == "true" ]] && deleteBackup && exit
 [[ "$dns" == "true" ]] && dns && exit
 [[ "$restore" == "true" ]] && restore && exit
-[[ "$mountPVC" == "true" ]] && mountPVC && exit
+[[ "$mountPVC" == "true" ]] && mount && exit
 if [[ "$number_of_backups" -gt 1 && "$sync" == "true" ]]; then # Run backup and sync at the same time
     echo "Running Apps Backup & Syncing Catalog"
     if [[ "$prune" == "true" ]]; then
