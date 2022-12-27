@@ -57,7 +57,7 @@ do
                 data_name=$(echo "$pvc" | awk '{print $3}')
                 volume_name=$(echo "$pvc" | awk '{print $4}')
                 full_path=$(zfs list -t filesystem -r "$pool"/ix-applications/releases/"$app"/volumes -o name -H | grep "$volume_name")
-                if ! zfs set mountpoint=/heavyscript/"$data_name" "$full_path" ; then
+                if ! zfs set mountpoint=/truetool/"$data_name" "$full_path" ; then
                     echo "Error: Failed to mount $app"
                     exit 1
                 else
