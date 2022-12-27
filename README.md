@@ -48,6 +48,16 @@ It also offers a few handy shortcuts for commonly required chores, like: Enablin
 
 ## How to Install
 
+### oneliner
+
+```
+curl -s https://raw.githubusercontent.com/truecharts/truetool/main/bootstrap | bash
+```
+
+You can now use truetool anywhere `truetool -ARGUMENTS`
+
+## Manual Install
+
 ### Choose a folder
 
 It's important to save the script in a folder that is persistent across TrueNAS System Updates.
