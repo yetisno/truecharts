@@ -182,7 +182,21 @@ fi
 [[ "$dns" == "true" ]] && dns && exit
 [[ "$restore" == "true" ]] && restore && exit
 [[ "$mountPVC" == "true" ]] && mountPVC && exit
-[[ "$number_of_backups" -ge 1 ]] && backup
-[[ "$sync" == "true" ]] && sync
+if [[ "$number_of_backups" -gt 1 && "$sync" == "true" ]]; then # Run backup and sync at the same time
+    echo "Running Apps Backup & Syncing Catalog"
+    if [[ "$prune" == "true" ]]; then
+      prune &
+    fi
+    backup &
+    sync &
+    wait
+elif [[ "$number_of_backups" -gt 1 && -z "$sync" ]]; then # If only backup is true, run it
+    echo "Running Apps Backup"
+    backup
+elif [[ "$sync" == "true" && -z "$number_of_backups" ]]; then # If only sync is true, run it
+    echo "Syncing Catalog"
+    echo -e "Syncing Catalog(s)\n\n"
+    sync
+fi
 [[ "$update_all_apps" == "true" || "$update_apps" == "true" ]] && update_apps
 [[ "$prune" == "true" ]] && prune
