@@ -6,7 +6,7 @@ app_name=$(k3s crictl pods -s ready --namespace ix | sed -E 's/[[:space:]]([0-9]
 while true
 do
     clear -x
-    title 
+    title
     echo "Command to Container Menu"
     echo "-------------------------"
     echo "$app_name"
@@ -92,7 +92,7 @@ do
             exit
             ;;
         1)
-            clear -x 
+            clear -x
             title
             read -rt 500 -p "What command do you want to run?: " command || { echo -e "\nFailed to make a selection in time" ; exit; }
             # shellcheck disable=SC2086

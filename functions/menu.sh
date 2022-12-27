@@ -28,7 +28,7 @@ case $selection in
         help
         ;;
     2)
-        dns 
+        dns
         ;;
     3)
         mount
@@ -71,7 +71,7 @@ case $selection in
             esac
         done
         ;;
-        
+
     5)
         self_update
         ;;
@@ -84,7 +84,7 @@ case $selection in
     8)
         patch_2212_backups
         ;;
-    9) 
+    9)
         patch_2212_backups2
         ;;
     *)

@@ -2,10 +2,10 @@
 
 
 sync(){
-echo_sync+=("🅂 🅈 🄽 🄲") 
+echo_sync+=("🅂 🅈 🄽 🄲")
 cli -c 'app catalog sync_all' &> /dev/null && echo_sync+=("Catalog sync complete")
 
-#Dump the echo_array, ensures all output is in a neat order. 
+#Dump the echo_array, ensures all output is in a neat order.
 for i in "${echo_sync[@]}"
 do
     echo -e "$i"
@@ -17,7 +17,7 @@ export -f sync
 
 
 prune(){
-echo -e "🄿 🅁 🅄 🄽 🄴"  
+echo -e "🄿 🅁 🅄 🄽 🄴"
 version="$(cli -c 'system version' | awk -F '-' '{print $3}' | awk -F '.' '{print $1 $2}' |  tr -d " \t\r\.")"
 if (( "$version" >= 2212 )); then
     if ! cli -c 'app container config prune prune_options={"remove_unused_images": true, "remove_stopped_containers": true}' | head -n -4; then
@@ -170,7 +170,7 @@ do
             continue
             ;;
     esac
-done 
+done
 }
 
 
@@ -228,6 +228,5 @@ do
             continue
             ;;
     esac
-done 
+done
 }
-

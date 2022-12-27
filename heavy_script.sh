@@ -5,7 +5,7 @@
 script=$(readlink -f "$0")
 script_path=$(dirname "$script")
 script_name="heavy_script.sh"
-cd "$script_path" || { echo "Error: Failed to change to script directory" ; exit ; } 
+cd "$script_path" || { echo "Error: Failed to change to script directory" ; exit ; }
 
 #Version
 hs_version=$(git describe --tags)
@@ -98,7 +98,7 @@ do
             update_limit="$nextopt"
         else
             update_limit=1
-        fi        
+        fi
         ;;
       u)
         update_apps="true"
@@ -129,7 +129,7 @@ do
 done
 
 
-#exit if incompatable functions are called 
+#exit if incompatable functions are called
 [[ "$update_all_apps" == "true" && "$update_apps" == "true" ]] && echo -e "-U and -u cannot BOTH be called" && exit
 
 #Continue to call functions in specific order
@@ -157,5 +157,5 @@ elif [[ "$sync" == "true" && -z "$number_of_backups" ]]; then # If only sync is 
     sync
 fi
 [[ "$update_all_apps" == "true" || "$update_apps" == "true" ]] && commander
-[[ "$prune" == "true" ]] && prune 
+[[ "$prune" == "true" ]] && prune
 exit 0

@@ -28,15 +28,15 @@ do
             do
                 clear -x
                 title
-                echo "$list" 
-                echo 
+                echo "$list"
+                echo
                 echo "0)  Exit"
                 read -rt 120 -p "Please type a number: " selection || { echo -e "\nFailed to make a selection in time" ; exit; }
-                
+
                 #Check for valid selection. If no issues, continue
                 [[ $selection == 0 ]] && echo "Exiting.." && exit
                 app=$(echo -e "$list" | grep ^"$selection)" | awk '{print $2}' | cut -c 4- )
-                [[ -z "$app" ]] && echo "Invalid Selection: $selection, was not an option" && sleep 3 && continue 
+                [[ -z "$app" ]] && echo "Invalid Selection: $selection, was not an option" && sleep 3 && continue
                 pvc=$(echo -e "$list" | grep ^"$selection)")
 
                 #Stop applicaiton if not stopped
@@ -64,7 +64,7 @@ do
                     echo -e "\nMounted\n$data_name"
                 fi
                 echo -e "\nUnmount with:\nzfs set mountpoint=legacy $full_path && rmdir /mnt/heavyscript/$data_name\n\nOr use the Unmount All option\n"
-                
+
                 #Ask if user would like to mount something else
                 while true
                 do
@@ -80,7 +80,7 @@ do
                         exit
                         ;;
                     *)
-                        echo "Invalid selection \"$yesno\" was not an option" 
+                        echo "Invalid selection \"$yesno\" was not an option"
                         sleep 3
                         continue
                         ;;
@@ -97,7 +97,7 @@ do
                 app=$(echo "$main" | awk '{print $1}' | cut -c 4-)
                 pvc=$(echo "$main" | awk '{print $3}')
                 full_path=$(find /mnt/"$pool"/ix-applications/releases/"$app"/volumes/ -maxdepth 0 | cut -c 6-)
-                zfs set mountpoint=legacy "$full_path""$pvc" 
+                zfs set mountpoint=legacy "$full_path""$pvc"
                 echo "$i unmounted" && rmdir /mnt/heavyscript/"$i" || echo "failed to unmount $i"
             done
             rmdir /mnt/heavyscript

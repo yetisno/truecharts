@@ -19,7 +19,7 @@ if [[  ${#list_backups[@]}  -gt  "$number_of_backups" ]]; then
     done
 fi
 
-#Dump the echo_array, ensures all output is in a neat order. 
+#Dump the echo_array, ensures all output is in a neat order.
 for i in "${echo_backup[@]}"
 do
     echo -e "$i"
@@ -52,9 +52,9 @@ do
     read -rt 240 -p "Please type a number: " selection || { echo -e "\nFailed to make a selection in time" ; exit; }
     restore_point=$(echo "$list_backups" | grep ^"$selection)" | awk '{print $2}')
     if [[ $selection == 0 ]]; then
-        echo "Exiting.." 
+        echo "Exiting.."
         exit
-    elif [[ -z "$selection" ]]; then 
+    elif [[ -z "$selection" ]]; then
         echo "Your selection cannot be empty"
         sleep 3
         continue
@@ -70,7 +70,7 @@ done
 while true
 do
     clear -x
-    echo -e "WARNING:\nYou CANNOT go back after deleting your restore point" 
+    echo -e "WARNING:\nYou CANNOT go back after deleting your restore point"
     echo -e "\n\nYou have chosen:\n$restore_point\n\n"
     read -rt 120 -p "Would you like to proceed with deletion? (y/N): " yesno  || { echo -e "\nFailed to make a selection in time" ; exit; }
     case $yesno in
@@ -104,7 +104,7 @@ do
             exit
             ;;
         *)
-            echo "$yesno was not an option, try again" 
+            echo "$yesno was not an option, try again"
             sleep 2
             continue
             ;;
@@ -136,9 +136,9 @@ do
     read -rt 240 -p "Please type a number: " selection || { echo -e "\nFailed to make a selection in time" ; exit; }
     restore_point=$(echo "$list_backups" | grep ^"$selection)" | awk '{print $2}')
     if [[ $selection == 0 ]]; then
-        echo "Exiting.." 
+        echo "Exiting.."
         exit
-    elif [[ -z "$selection" ]]; then 
+    elif [[ -z "$selection" ]]; then
         echo "Your selection cannot be empty"
         sleep 3
         continue

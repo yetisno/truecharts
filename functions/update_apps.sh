@@ -38,7 +38,7 @@ do
         if [[ "$failed_ver" == "$new_full_ver" ]] ; then
             echo -e "\n$app_name\nSkipping previously failed version:\n$new_full_ver"
             unset "array[$index]"
-        else 
+        else
             sed -i /"$app_name",/d failed
         fi
     #Skip Image updates if ignore image updates is set to true
@@ -59,7 +59,7 @@ rm finished 2>/dev/null
 while [[ ${#processes[@]} != 0 || $(wc -l finished 2>/dev/null | awk '{ print $1 }') -lt "${#array[@]}" ]]
 do
     if while_status=$(cli -m csv -c 'app chart_release query name,update_available,human_version,human_latest_version,container_images_update_available,status' 2>/dev/null) ; then
-        ((while_count++)) 
+        ((while_count++))
         [[ -z $while_status ]] && continue || echo -e "$while_count\n$while_status" > all_app_status
         mapfile -t deploying_check < <(grep ",DEPLOYING," all_app_status)
         for i in "${deploying_check[@]}"
@@ -78,14 +78,14 @@ do
     for proc in "${processes[@]}"
     do
         kill -0 "$proc" &> /dev/null || unset "processes[$count]"
-        ((count++)) 
+        ((count++))
     done
     processes=("${processes[@]}")
     if [[ $index -lt ${#array[@]} && "${#processes[@]}" -lt "$update_limit" ]]; then
         pre_process "${array[$index]}" &
         processes+=($!)
         ((index++))
-    else 
+    else
         sleep 3
     fi
 done
@@ -107,7 +107,7 @@ rollback_version=$(echo "${array[$index]}" | awk -F ',' '{print $4}' | awk -F '_
 
 # Check if app is external services, append outcome to external_services file
 [[ ! -e external_services ]] && touch external_services
-if ! grep -qs "^$app_name," external_services ; then 
+if ! grep -qs "^$app_name," external_services ; then
     if ! grep -qs "/external-service" /mnt/"$pool"/ix-applications/releases/"$app_name"/charts/"$(find /mnt/"$pool"/ix-applications/releases/"$app_name"/charts/ -maxdepth 1 -type d -printf '%P\n' | sort -r | head -n 1)"/Chart.yaml; then
         echo "$app_name,false" >> external_services
     else
@@ -178,7 +178,7 @@ count=0
 if [[ $rollback == "true" || "$startstatus"  ==  "STOPPED" ]]; then
     while true
     do
-        
+
         # If app reports ACTIVE right away, assume its a false positive and wait for it to change, or trust it after 5 updates to all_app_status
         status=$(grep "^$app_name," all_app_status | awk -F ',' '{print $2}')
         if [[ $count -lt 1 && $status == "ACTIVE" && "$(grep "^$app_name," deploying 2>/dev/null | awk -F ',' '{print $2}')" != "DEPLOYING" ]]; then  # If status shows up as Active or Stopped on the first check, verify that. Otherwise it may be a false report..
@@ -210,7 +210,7 @@ if [[ $rollback == "true" || "$startstatus"  ==  "STOPPED" ]]; then
                 break
             else
                 echo_array+=("Active")
-                break 
+                break
             fi
         elif [[ "$SECONDS" -ge "$timeout" ]]; then
             if [[ $rollback == "true" ]]; then
@@ -219,14 +219,14 @@ if [[ $rollback == "true" || "$startstatus"  ==  "STOPPED" ]]; then
                     echo_array+=("Error: Run Time($SECONDS) for $app_name has exceeded Timeout($timeout)")
                     echo_array+=("If this is a slow starting application, set a higher timeout with -t")
                     echo_array+=("If this applicaion is always DEPLOYING, you can disable all probes under the Healthcheck Probes Liveness section in the edit configuration")
-                    echo_array+=("Reverting update..")       
+                    echo_array+=("Reverting update..")
                     if rollback_app ; then
                         echo_array+=("Rolled Back")
                     else
                         echo_array+=("Error: Failed to rollback $app_name\nAbandoning")
                         echo_array
                         return 1
-                    fi                    
+                    fi
                     failed="true"
                     SECONDS=0
                     count=0
@@ -286,7 +286,7 @@ do
         do
             sleep 1
         done
-    else 
+    else
         break
     fi
 done
@@ -316,7 +316,7 @@ do
         break
     elif [[ ! $update_avail =~ "true" ]]; then
         break
-    else 
+    else
         sleep 3
     fi
 done
@@ -338,7 +338,7 @@ do
         do
             sleep 1
         done
-    else 
+    else
         break
     fi
 done
@@ -347,7 +347,7 @@ export -f stop_app
 
 
 echo_array(){
-#Dump the echo_array, ensures all output is in a neat order. 
+#Dump the echo_array, ensures all output is in a neat order.
 for i in "${echo_array[@]}"
 do
     echo -e "$i"

@@ -2,7 +2,7 @@
 
 
 script_create(){
-while true 
+while true
 do
     clear -x
     title
@@ -19,7 +19,7 @@ do
             echo "Exiting.."
             exit
             ;;
-        1 | -U) 
+        1 | -U)
             while true
             do
                 echo -e "\nHow many applications do you want updating at the same time?"
@@ -69,7 +69,7 @@ do
             ;;
     esac
 done
-while true 
+while true
 do
     clear -x
     title
@@ -91,9 +91,9 @@ do
     echo
     echo "99) Remove Update Options, Restart"
     echo "00) Done making selections, proceed with update"
-    echo 
+    echo
     echo "0) Exit"
-    echo 
+    echo
     echo "Current Choices"
     echo "---------------"
     echo "bash heavy_script.sh ${update_selection[*]}"
@@ -153,11 +153,11 @@ do
             ;;
         9 | --ignore-img )
             printf '%s\0' "${update_selection[@]}" | grep -Fxqz -- "--ignore-img" && echo -e "\"--ignore-img\" is already on here, skipping" && sleep 3 && continue #If option is already on there, skip it
-            update_selection+=("--ignore-img")      
+            update_selection+=("--ignore-img")
             ;;
         10 | --self-update )
             printf '%s\0' "${update_selection[@]}" | grep -Fxqz -- "--self-update" && echo -e "\"--self-update\" is already on here, skipping" && sleep 3 && continue #If option is already on there, skip it
-            update_selection+=("--self-update")      
+            update_selection+=("--self-update")
             ;;
         99)
             count=2
@@ -172,7 +172,7 @@ do
             continue
             ;;
         *)
-            echo "\"$current_selection\" was not an option, try again" && sleep 3 && continue 
+            echo "\"$current_selection\" was not an option, try again" && sleep 3 && continue
             ;;
     esac
 done
