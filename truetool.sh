@@ -77,7 +77,7 @@ else
                   kubeapiEnable="true"
                   ;;
             no-color)
-                  noColor="true"
+                  echo "Colors are removed, so the no-color option is depricated. Please stop using this"
                   ;;
             *)
                   echo -e "Invalid Option \"--$OPTARG\"\n" && help
