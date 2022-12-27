@@ -19,7 +19,7 @@ source includes/chores.sh
 # shellcheck source=includes/colors.sh
 source includes/colors.sh
 # shellcheck source=includes/dns.sh
-source includes/dns.sh
+source functions/dns.sh
 # shellcheck source=includes/help.sh
 source includes/help.sh
 # shellcheck source=includes/help.sh
