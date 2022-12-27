@@ -12,8 +12,6 @@ targetRepo="https://github.com/truecharts/truetool.git"
 cd "${SCRIPT_DIR}" || echo -e "ERROR: Something went wrong accessing the script directory"
 
 # Includes
-# shellcheck source=includes/backup.sh
-source includes/backup.sh
 # shellcheck source=includes/chores.sh
 source includes/chores.sh
 # shellcheck source=includes/colors.sh
@@ -22,8 +20,6 @@ source includes/colors.sh
 source includes/help.sh
 # shellcheck source=includes/help.sh
 source includes/patch.sh
-# shellcheck source=includes/mount.sh
-source includes/mount.sh
 # shellcheck source=includes/no_args.sh
 source includes/no_args.sh
 # shellcheck source=includes/title.sh
@@ -40,6 +36,9 @@ source functions/dns.sh
 source functions/misc.sh
 # shellcheck source=functions/mount.sh
 source functions/mount.sh
+# shellcheck source=functions/backup.sh
+source functions/backup.sh
+
 
 #If no argument is passed, set flag to show menu
 if [[ -z "$*" || "-" == "$*" || "--" == "$*"  ]]; then
@@ -138,6 +137,8 @@ title
 [[ "$enableUpdate" == "true" ]] && updater "$@"
 
 scaleVersion=$(version="$(cli -c 'system version' | awk -F '-' '{print $3}' | awk -F '.' '{print $1 $2 $3}' |  tr -d " \t\r\.")")
+update_limit=$(nproc --all)
+rollback="true"
 
 ## Always check if a hotpatch needs to be applied
 hotpatch
