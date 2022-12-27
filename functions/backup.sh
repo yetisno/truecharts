@@ -5,8 +5,8 @@ backup(){
 echo_backup+=("🄱 🄰 🄲 🄺 🅄 🄿 🅂")
 echo_backup+=("Number of backups was set to $number_of_backups")
 date=$(date '+%Y_%m_%d_%H_%M_%S')
-[[ "$verbose" == "true" ]] && cli -c 'app kubernetes backup_chart_releases backup_name=''"'HeavyScript_"$date"'"' &> /dev/null && echo_backup+=(HeavyScript_"$date")
-[[ -z "$verbose" ]] && echo_backup+=("\nNew Backup Name:") && cli -c 'app kubernetes backup_chart_releases backup_name=''"'HeavyScript_"$date"'"' | tail -n 1 &> /dev/null && echo_backup+=(HeavyScript_"$date")
+[[ "$verbose" == "true" ]] && cli -c 'app kubernetes backup_chart_releases backup_name=''"'TrueTool_"$date"'"' &> /dev/null && echo_backup+=(TrueTool_"$date")
+[[ -z "$verbose" ]] && echo_backup+=("\nNew Backup Name:") && cli -c 'app kubernetes backup_chart_releases backup_name=''"'TrueTool_"$date"'"' | tail -n 1 &> /dev/null && echo_backup+=(TrueTool_"$date")
 mapfile -t list_backups < <(cli -c 'app kubernetes list_backups' | grep -E "HeavyScript_|TrueTool_" | sort -t '_' -Vr -k2,7 | awk -F '|'  '{print $2}'| tr -d " \t\r")
 if [[  ${#list_backups[@]}  -gt  "$number_of_backups" ]]; then
     echo_backup+=("\nDeleted the oldest backup(s) for exceeding limit:")
@@ -45,7 +45,7 @@ while true
 do
     clear -x
     title
-    echo -e "Choose a Restore Point to Delete\nThese may be out of order if they are not HeavyScript backups"
+    echo -e "Choose a Restore Point to Delete\nThese may be out of order if they are not TrueTool backups"
     echo "$list_backups"
     echo
     echo "0)  Exit"
@@ -120,7 +120,7 @@ restore(){
 clear -x && echo "pulling restore points.."
 list_backups=$(cli -c 'app kubernetes list_backups' | grep -E "HeavyScript_|TrueTool_" | sort -t '_' -Vr -k2,7 | tr -d " \t\r"  | awk -F '|'  '{print $2}' | nl -s ") " | column -t)
 if [[ -z "$list_backups" ]]; then
-    echo "No HeavyScript restore points available"
+    echo "No TrueTool restore points available"
     exit
 fi
 
@@ -198,7 +198,7 @@ if [[ $borked == True ]]; then
     echo "If you were to restore, you would lose all of your application data"
     echo "If you are on Bluefin version: 22.12.0, and have not yet ran the patch, you will need to run it"
     echo "Afterwards you will be able to create backups and restore them"
-    echo "This is a known ix-systems bug, and has nothing to do with HeavyScript"
+    echo "This is a known ix-systems bug and has nothing to do with TrueTool"
     exit
 fi
 

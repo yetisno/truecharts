@@ -63,7 +63,7 @@ do
                 else
                     echo -e "\nMounted\n$data_name"
                 fi
-                echo -e "\nUnmount with:\nzfs set mountpoint=legacy $full_path && rmdir /mnt/heavyscript/$data_name\n\nOr use the Unmount All option\n"
+                echo -e "\nUnmount with:\nzfs set mountpoint=legacy $full_path && rmdir /mnt/truetool/$data_name\n\nOr use the Unmount All option\n"
 
                 #Ask if user would like to mount something else
                 while true
@@ -89,7 +89,7 @@ do
             done
             ;;
         2)
-            mapfile -t unmount_array < <(basename -a /mnt/heavyscript/* | sed "s/*//")
+            mapfile -t unmount_array < <(basename -a /mnt/truetool/* | sed "s/*//")
             [[ -z ${unmount_array[*]} ]] && echo "Theres nothing to unmount" && sleep 3 && continue
             for i in "${unmount_array[@]}"
             do
@@ -98,9 +98,9 @@ do
                 pvc=$(echo "$main" | awk '{print $3}')
                 full_path=$(find /mnt/"$pool"/ix-applications/releases/"$app"/volumes/ -maxdepth 0 | cut -c 6-)
                 zfs set mountpoint=legacy "$full_path""$pvc"
-                echo "$i unmounted" && rmdir /mnt/heavyscript/"$i" || echo "failed to unmount $i"
+                echo "$i unmounted" && rmdir /mnt/truetool/"$i" || echo "failed to unmount $i"
             done
-            rmdir /mnt/heavyscript
+            rmdir /mnt/truetool
             sleep 3
             ;;
         *)
