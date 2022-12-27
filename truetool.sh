@@ -24,8 +24,6 @@ source includes/patch.sh
 source includes/no_args.sh
 # shellcheck source=includes/title.sh
 source includes/title.sh
-# shellcheck source=includes/update.sh
-source includes/update.sh
 # shellcheck source=includes/update_self.sh
 source includes/update_self.sh
 
@@ -38,6 +36,8 @@ source functions/misc.sh
 source functions/mount.sh
 # shellcheck source=functions/backup.sh
 source functions/backup.sh
+# shellcheck source=functions/update_apps.sh
+source functions/update_apps.sh
 
 
 #If no argument is passed, set flag to show menu
