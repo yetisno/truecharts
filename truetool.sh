@@ -38,6 +38,8 @@ source includes/update_self.sh
 source functions/dns.sh
 # shellcheck source=functions/misc.sh
 source functions/misc.sh
+# shellcheck source=functions/mount.sh
+source functions/mount.sh
 
 #If no argument is passed, set flag to show menu
 if [[ -z "$*" || "-" == "$*" || "--" == "$*"  ]]; then
