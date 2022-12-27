@@ -131,7 +131,7 @@ title
 
 [[ "$enableUpdate" == "true" ]] && updater "$@"
 
-scaleVersion=$(version="$(cli -c 'system version' | awk -F '-' '{print $3}' | awk -F '.' '{print $1 $2 $3}' |  tr -d " \t\r\.")")
+scaleVersion=$(cli -c 'system version' | awk -F '-' '{print $3}' | awk -F '.' '{print $1 $2 $3}' |  tr -d " \t\r\.")
 update_limit=$(nproc --all)
 rollback="true"
 

@@ -14,5 +14,3 @@ echo
 echo
 }
 export -f sync
-
-}
