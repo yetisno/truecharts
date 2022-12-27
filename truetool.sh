@@ -77,7 +77,7 @@ else
                   kubeapiEnable="true"
                   ;;
             no-color)
-                  noColor
+                  noColor="true"
                   ;;
             *)
                   echo -e "Invalid Option \"--$OPTARG\"\n" && help
@@ -196,5 +196,5 @@ elif [[ "$sync" == "true" && -z "$number_of_backups" ]]; then # If only sync is 
     echo -e "Syncing Catalog(s)\n\n"
     sync
 fi
-[[ "$update_all_apps" == "true" || "$update_apps" == "true" ]] && update_apps
+[[ "$update_all_apps" == "true" || "$update_apps" == "true" ]] && commander
 [[ "$prune" == "true" ]] && prune
