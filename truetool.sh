@@ -18,8 +18,6 @@ source includes/backup.sh
 source includes/chores.sh
 # shellcheck source=includes/colors.sh
 source includes/colors.sh
-# shellcheck source=includes/dns.sh
-source functions/dns.sh
 # shellcheck source=includes/help.sh
 source includes/help.sh
 # shellcheck source=includes/help.sh
@@ -34,6 +32,12 @@ source includes/title.sh
 source includes/update.sh
 # shellcheck source=includes/update_self.sh
 source includes/update_self.sh
+
+# Libraries loaded from Heavyscript
+# shellcheck source=functions/dns.sh
+source functions/dns.sh
+# shellcheck source=functions/misc.sh
+source functions/misc.sh
 
 #If no argument is passed, set flag to show menu
 if [[ -z "$*" || "-" == "$*" || "--" == "$*"  ]]; then
