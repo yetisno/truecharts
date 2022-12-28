@@ -30,8 +30,6 @@ source includes/backup.sh
 # Libraries loaded from Heavyscript
 # shellcheck source=functions/dns.sh
 source functions/dns.sh
-# shellcheck source=functions/misc.sh
-source functions/misc.sh
 # shellcheck source=functions/mount.sh
 source functions/mount.sh
 # shellcheck source=functions/backup.sh
