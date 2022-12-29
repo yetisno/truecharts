@@ -36,34 +36,34 @@ do
                 #Check for valid selection. If no issues, continue
                 [[ $selection == 0 ]] && echo "Exiting.." && exit
                 app=$(echo -e "$list" | grep ^"$selection)" | awk '{print $2}' | cut -c 4- )
-                [[ -z "$app" ]] && echo "Invalid Selection: $selection, was not an option" && sleep 3 && continue
+                [[ -z "${app}" ]] && echo "Invalid Selection: $selection, was not an option" && sleep 3 && continue
                 pvc=$(echo -e "$list" | grep ^"$selection)")
 
                 #Stop applicaiton if not stopped
-                status=$(cli -m csv -c 'app chart_release query name,status' | grep "^$app," | awk -F ',' '{print $2}'| tr -d " \t\n\r")
+                status=$(cli -m csv -c 'app chart_release query name,status' | grep "^${app}," | awk -F ',' '{print $2}'| tr -d " \t\n\r")
                 if [[ "$status" != "STOPPED" ]]; then
-                    echo -e "\nStopping $app prior to mount"
-                    if ! cli -c 'app chart_release scale release_name='\""$app"\"\ 'scale_options={"replica_count": 0}' &> /dev/null; then
-                        echo "Failed to stop $app"
+                    echo -e "\nStopping ${app} prior to mount"
+                    if ! cli -c 'app chart_release scale release_name='\""${app}"\"\ 'scale_options={"replica_count": 0}' &> /dev/null; then
+                        echo "Failed to stop ${app}"
                         exit 1
                     else
                         echo "Stopped"
                     fi
                 else
-                    echo -e "\n$app is already stopped"
+                    echo -e "\n${app} is already stopped"
                 fi
 
                 #Grab data then output and mount
-                data_name=$(echo "$pvc" | awk '{print $3}')
-                volume_name=$(echo "$pvc" | awk '{print $4}')
-                full_path=$(zfs list -t filesystem -r "$pool"/ix-applications/releases/"$app"/volumes -o name -H | grep "$volume_name")
-                if ! zfs set mountpoint=/truetool/"$data_name" "$full_path" ; then
-                    echo "Error: Failed to mount $app"
+                data_name=$(echo "${pvc}" | awk '{print $3}')
+                volume_name=$(echo "${pvc}" | awk '{print $4}')
+                full_path=$(zfs list -t filesystem -r "${pool}"/ix-applications/releases/"${app}"/volumes -o name -H | grep "$volume_name")
+                if ! zfs set mountpoint=/truetool/"$data_name" "${full_path}" ; then
+                    echo "Error: Failed to mount ${app}"
                     exit 1
                 else
                     echo -e "\nMounted\n$data_name"
                 fi
-                echo -e "\nUnmount with:\nzfs set mountpoint=legacy $full_path && rmdir /mnt/truetool/$data_name\n\nOr use the Unmount All option\n"
+                echo -e "\nUnmount with:\nzfs set mountpoint=legacy ${full_path} && rmdir /mnt/truetool/$data_name\n\nOr use the Unmount All option\n"
 
                 #Ask if user would like to mount something else
                 while true
@@ -96,8 +96,8 @@ do
                 main=$(k3s kubectl get pvc -A | grep -E "\s$i\s" | awk '{print $1, $2, $4}')
                 app=$(echo "$main" | awk '{print $1}' | cut -c 4-)
                 pvc=$(echo "$main" | awk '{print $3}')
-                full_path=$(find /mnt/"$pool"/ix-applications/releases/"$app"/volumes/ -maxdepth 0 | cut -c 6-)
-                zfs set mountpoint=legacy "$full_path""$pvc"
+                full_path=$(find /mnt/"${pool}"/ix-applications/releases/"${app}"/volumes/ -maxdepth 0 | cut -c 6-)
+                zfs set mountpoint=legacy "${full_path}""${pvc}"
                 echo "$i unmounted" && rmdir /mnt/truetool/"$i" || echo "failed to unmount $i"
             done
             rmdir /mnt/truetool
